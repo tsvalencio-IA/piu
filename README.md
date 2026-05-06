@@ -71,3 +71,15 @@ node-version: '22'
 ```
 
 Se o GitHub Actions mostrar erro `The Capacitor CLI requires NodeJS >=22.0.0`, confirme que o arquivo do workflow enviado ao repositório é esta versão v2.
+
+
+## Correção v3 — Java 21
+
+Se o GitHub Actions mostrar erro `invalid source release: 21`, significa que o build Android está tentando compilar com Java 21, mas o workflow estava usando Java 17.
+
+Esta versão já corrige o workflow para:
+
+```yaml
+node-version: '22'
+java-version: '21'
+```
