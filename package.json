@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "APK Android offline para controle de fiados com banco local no celular.",
   "private": true,
+  "engines": {
+    "node": ">=22"
+  },
   "type": "module",
   "scripts": {
     "prepare-www": "node scripts/prepare-www.mjs",

@@ -59,3 +59,15 @@ No GitHub:
 O APK gerado pelo workflow é debug. Ele instala normalmente para teste interno, mas não é uma versão assinada para Play Store.
 
 Powered by thIAguinho Soluções.
+
+
+## Correção de build no GitHub Actions
+
+Este pacote usa Capacitor CLI atual, que exige Node.js 22 ou superior.
+O workflow `.github/workflows/build-android-apk.yml` já está configurado com:
+
+```yaml
+node-version: '22'
+```
+
+Se o GitHub Actions mostrar erro `The Capacitor CLI requires NodeJS >=22.0.0`, confirme que o arquivo do workflow enviado ao repositório é esta versão v2.
