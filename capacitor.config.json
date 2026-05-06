@@ -1,0 +1,12 @@
+{
+  "appId": "br.com.thiaguinho.controlefiados",
+  "appName": "Controle de Fiados",
+  "webDir": "www",
+  "bundledWebRuntime": false,
+  "server": {
+    "androidScheme": "https"
+  },
+  "android": {
+    "allowMixedContent": true
+  }
+}
