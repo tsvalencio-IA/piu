@@ -5,7 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <meta name="theme-color" content="#111827" />
   <link rel="manifest" href="./manifest.webmanifest" />
-  <title>Controle de Fiados - thIAguinho Soluções</title>
+  <title>Controle de Vendas - thIAguinho Soluções</title>
+
   <style>
     :root{
       --bg:#f3f4f6;
@@ -79,6 +80,7 @@
       padding:6px 8px;
       border-radius:999px;
       white-space:nowrap;
+      cursor:pointer;
     }
 
     main{padding:14px;}
@@ -193,10 +195,6 @@
       .row2,.row3{
         grid-template-columns:1fr;
       }
-
-      .hideSmall{
-        display:none!important;
-      }
     }
 
     .btns{
@@ -227,30 +225,11 @@
       transform:none;
     }
 
-    .btnPrimary{
-      background:var(--brand);
-      color:#fff;
-    }
-
-    .btnBlue{
-      background:var(--brand2);
-      color:#fff;
-    }
-
-    .btnGreen{
-      background:var(--ok);
-      color:#fff;
-    }
-
-    .btnWarn{
-      background:var(--warn);
-      color:#fff;
-    }
-
-    .btnDanger{
-      background:var(--danger);
-      color:#fff;
-    }
+    .btnPrimary{background:var(--brand);color:#fff;}
+    .btnBlue{background:var(--brand2);color:#fff;}
+    .btnGreen{background:var(--ok);color:#fff;}
+    .btnWarn{background:var(--warn);color:#fff;}
+    .btnDanger{background:var(--danger);color:#fff;}
 
     .btnSoft{
       background:#eef2ff;
@@ -264,9 +243,7 @@
       border:1px solid #e5e7eb;
     }
 
-    .btnFull{
-      width:100%;
-    }
+    .btnFull{width:100%;}
 
     .muted{
       color:var(--muted);
@@ -286,9 +263,7 @@
       align-items:center;
     }
 
-    .totalBox strong{
-      font-size:18px;
-    }
+    .totalBox strong{font-size:18px;}
 
     .stats{
       display:grid;
@@ -381,23 +356,9 @@
       border:1px solid transparent;
     }
 
-    .aberto{
-      background:#fef3c7;
-      color:#92400e;
-      border-color:#fde68a;
-    }
-
-    .parcial{
-      background:#dbeafe;
-      color:#1e40af;
-      border-color:#bfdbfe;
-    }
-
-    .pago{
-      background:#dcfce7;
-      color:#166534;
-      border-color:#bbf7d0;
-    }
+    .aberto{background:#fef3c7;color:#92400e;border-color:#fde68a}
+    .parcial{background:#dbeafe;color:#1e40af;border-color:#bfdbfe}
+    .pago{background:#dcfce7;color:#166534;border-color:#bbf7d0}
 
     .late{
       background:#fee2e2;
@@ -447,19 +408,23 @@
       border-radius:11px;
     }
 
-    .compraBloco{
-      border-top:1px solid #eef2f7;
-      margin-top:9px;
-      padding-top:9px;
-    }
-
-    .clienteCompras{
+    .clienteDetalhes{
       display:block;
-      margin-top:8px;
+      margin-top:10px;
+      border-top:1px solid #eef2f7;
+      padding-top:10px;
     }
 
-    .clienteCompras.minimized{
+    .clienteDetalhes.minimized{
       display:none;
+    }
+
+    .compraBloco{
+      border:1px solid #eef2f7;
+      background:#fcfcfd;
+      border-radius:14px;
+      margin-top:9px;
+      padding:10px;
     }
 
     .empty{
@@ -486,9 +451,7 @@
       z-index:9;
     }
 
-    .footer b{
-      color:#111827;
-    }
+    .footer b{color:#111827}
 
     dialog{
       border:0;
@@ -499,9 +462,7 @@
       padding:0;
     }
 
-    dialog::backdrop{
-      background:rgba(0,0,0,.45);
-    }
+    dialog::backdrop{background:rgba(0,0,0,.45)}
 
     .dialogHead{
       padding:14px;
@@ -512,33 +473,11 @@
       align-items:center;
     }
 
-    .dialogBody{
-      padding:14px;
-    }
+    .dialogBody{padding:14px;}
 
-    .dangerText{
-      color:#b91c1c;
-      font-weight:900;
-    }
-
-    .successText{
-      color:#166534;
-      font-weight:900;
-    }
-
-    .hidden{
-      display:none!important;
-    }
-
-    .smallLink{
-      background:none;
-      border:0;
-      color:#2563eb;
-      padding:0;
-      text-decoration:underline;
-      font-weight:800;
-      box-shadow:none;
-    }
+    .dangerText{color:#b91c1c;font-weight:900}
+    .successText{color:#166534;font-weight:900}
+    .hidden{display:none!important}
 
     .toast{
       position:fixed;
@@ -564,14 +503,8 @@
     }
 
     @keyframes toastin{
-      from{
-        opacity:0;
-        transform:translate(-50%,10px);
-      }
-      to{
-        opacity:1;
-        transform:translate(-50%,0);
-      }
+      from{opacity:0;transform:translate(-50%,10px)}
+      to{opacity:1;transform:translate(-50%,0)}
     }
 
     .fileLabel{
@@ -586,9 +519,7 @@
       cursor:pointer;
     }
 
-    .fileLabel input{
-      display:none;
-    }
+    .fileLabel input{display:none}
 
     .mono{
       font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;
@@ -606,10 +537,10 @@
   <header>
     <div class="wrap topline">
       <div class="brand">
-        <h1>Controle de Fiados</h1>
-        <p>Banco local no celular • Offline • Android APK</p>
+        <h1>Controle de Vendas</h1>
+        <p>Clientes • Vendas • Recebimentos</p>
       </div>
-      <span id="dbStatus" class="pill">Iniciando banco local...</span>
+      <span id="dbStatus" class="pill">Iniciando...</span>
     </div>
   </header>
 
@@ -618,15 +549,15 @@
       <aside class="stickySide">
         <div class="card">
           <div class="cardHead">
-            <h2 id="formTitle">Nova venda fiada</h2>
+            <h2 id="formTitle">Nova venda</h2>
             <div class="headActions">
-              <button class="btnSoft" id="btnToggleCadastro" type="button">Minimizar</button>
-              <button class="btnGreen" id="btnNovaCompraForm" type="button">Nova compra</button>
+              <button class="btnSoft" id="btnToggleCadastro" type="button">Abrir cadastro</button>
+              <button class="btnGreen" id="btnNovaCompraForm" type="button">Nova venda</button>
               <button class="btnGhost" id="btnNovo" type="button">Limpar</button>
             </div>
           </div>
 
-          <div class="cardBody" id="cadastroBody">
+          <div class="cardBody minimized" id="cadastroBody">
             <form id="formFiado">
               <input type="hidden" id="editId" />
               <input type="hidden" id="clienteOrigemId" />
@@ -667,7 +598,7 @@
                   <input id="valorUnitario" type="number" min="0" step="0.01" placeholder="0,00" />
                 </div>
                 <div>
-                  <label>Valor já recebido nesta venda (R$)</label>
+                  <label>Valor recebido nesta venda (R$)</label>
                   <input id="valorPago" type="number" min="0" step="0.01" value="0" />
                 </div>
               </div>
@@ -678,10 +609,10 @@
                   <input id="vencimento" type="date" />
                 </div>
                 <div>
-                  <label>Situação desta compra</label>
+                  <label>Situação desta venda</label>
                   <select id="status">
                     <option value="aberto">Em aberto</option>
-                    <option value="parcial">Com pagamento parcial</option>
+                    <option value="parcial">Recebeu parte</option>
                     <option value="pago">Pago / quitado</option>
                   </select>
                 </div>
@@ -703,37 +634,33 @@
               </div>
 
               <div class="btns">
-                <button class="btnPrimary btnFull" type="submit" id="btnSalvar">Salvar fiado</button>
+                <button class="btnPrimary btnFull" type="submit" id="btnSalvar">Salvar venda</button>
               </div>
-
-              <p class="muted" style="margin:10px 0 0">
-                O banco é criado automaticamente no primeiro uso e fica salvo no armazenamento interno do aplicativo no celular.
-                Todos os campos são opcionais, mas para controle real o ideal é preencher cliente, produto e valor.
-              </p>
             </form>
           </div>
         </div>
 
         <div class="card" style="margin-top:14px">
           <div class="cardHead">
-            <h2>Backup e restauração</h2>
+            <h2>Backup</h2>
+            <button class="btnSoft" id="btnToggleBackup" type="button">Abrir backup</button>
           </div>
-          <div class="cardBody">
+
+          <div class="cardBody minimized" id="backupBody">
             <div class="btns">
               <button class="btnBlue" id="btnExportJson" type="button">Exportar JSON</button>
-              <button class="btnGreen" id="btnExportCsv" type="button">Exportar planilha CSV</button>
+              <button class="btnGreen" id="btnExportCsv" type="button">Exportar CSV</button>
+
               <label class="fileLabel">
                 Importar JSON
                 <input id="importJson" type="file" accept="application/json,.json" />
               </label>
+
               <label class="fileLabel">
                 Importar CSV
                 <input id="importCsv" type="file" accept="text/csv,.csv" />
               </label>
             </div>
-            <p class="muted" style="margin-top:10px">
-              Para não perder dados ao trocar ou formatar o celular, exporte o backup JSON e guarde no WhatsApp, Drive, cartão ou outro lugar seguro.
-            </p>
           </div>
         </div>
       </aside>
@@ -741,19 +668,19 @@
       <section>
         <div class="stats">
           <div class="stat">
-            <span>Saldo total pendente</span>
+            <span>Saldo pendente</span>
             <strong id="statAberto">R$ 0,00</strong>
           </div>
           <div class="stat">
-            <span>Saldo de compras parciais</span>
+            <span>Saldo parcial</span>
             <strong id="statParcial">R$ 0,00</strong>
           </div>
           <div class="stat">
-            <span>Total já recebido</span>
+            <span>Total recebido</span>
             <strong id="statPago">R$ 0,00</strong>
           </div>
           <div class="stat">
-            <span>Clientes/Compras</span>
+            <span>Clientes/Vendas</span>
             <strong id="statQtd">0</strong>
           </div>
         </div>
@@ -767,24 +694,28 @@
           <div class="cardBody">
             <div class="filters">
               <input id="busca" type="search" placeholder="Buscar por cliente, produto ou telefone" />
+
               <select id="filtroStatus">
-                <option value="todos">Todos os status</option>
+                <option value="devedores" selected>Somente devedores</option>
+                <option value="todos">Todos</option>
                 <option value="aberto">Em aberto</option>
-                <option value="parcial">Com pagamento parcial</option>
+                <option value="parcial">Recebeu parte</option>
                 <option value="pago">Pago / quitado</option>
                 <option value="atrasado">Atrasados</option>
               </select>
+
               <select id="ordenacao">
                 <option value="recentes">Mais recentes</option>
                 <option value="antigos">Mais antigos</option>
                 <option value="maior_saldo">Maior saldo</option>
                 <option value="nome">Nome A-Z</option>
               </select>
+
               <button class="btnSoft" id="btnLimparFiltros" type="button">Limpar filtros</button>
             </div>
 
             <div id="lista" class="list"></div>
-            <div id="empty" class="empty hidden">Nenhum fiado encontrado.</div>
+            <div id="empty" class="empty hidden">Nenhum registro encontrado.</div>
           </div>
         </div>
       </section>
@@ -796,16 +727,21 @@
       <span id="dialogPagamentoTitulo">Registrar recebimento</span>
       <button class="btnGhost" id="closePagamento" type="button">Fechar</button>
     </div>
+
     <div class="dialogBody">
       <input type="hidden" id="pagamentoId" />
+
       <p id="pagamentoResumo" class="muted"></p>
+
       <div class="row">
         <div>
           <label id="labelValorReceber">Valor recebido agora (R$)</label>
           <input id="valorReceber" type="number" min="0.01" step="0.01" placeholder="0,00" />
         </div>
       </div>
+
       <p id="pagamentoAviso" class="muted"></p>
+
       <div class="btns">
         <button class="btnGreen" id="btnConfirmarPagamento" type="button">Registrar recebimento</button>
         <button class="btnBlue" id="btnQuitarDialog" type="button">Quitar saldo</button>
@@ -815,32 +751,25 @@
 
   <dialog id="dialogInfo">
     <div class="dialogHead">
-      <span>Banco local</span>
+      <span>Informações</span>
       <button class="btnGhost" id="closeInfo" type="button">Fechar</button>
     </div>
+
     <div class="dialogBody">
-      <p class="muted">
-        Este APK usa IndexedDB local no WebView do Android. Os dados ficam no armazenamento interno do aplicativo. Eles continuam salvos ao fechar e abrir o app.
-      </p>
-      <p class="dangerText">
-        Se o aplicativo for desinstalado ou o celular for formatado, os dados podem ser perdidos.
-      </p>
-      <p class="successText">
-        Use Exportar JSON para fazer backup externo.
-      </p>
       <div id="dbInfo" class="mono"></div>
     </div>
   </dialog>
 
   <div id="toast" class="toast"></div>
+
   <footer class="footer">Powered by <b>thIAguinho Soluções</b></footer>
 
   <script>
     'use strict';
 
-    const DB_NAME = 'thiaguinho_controle_fiados_db';
-    const DB_VERSION = 2;
-    const STORE = 'fiados';
+    const DB_NAME = 'thiaguinho_controle_vendas_db';
+    const DB_VERSION = 1;
+    const STORE = 'vendas';
 
     let db = null;
     let fiadosCache = [];
@@ -866,14 +795,144 @@
       return Number(String(v || '0').replace(/\./g,'').replace(',','.')) || 0;
     };
 
+    function uid(){
+      if (window.crypto && window.crypto.randomUUID) return window.crypto.randomUUID();
+      return 'id_' + Date.now() + '_' + Math.random().toString(16).slice(2);
+    }
+
     function somenteNumeros(s){
       return String(s || '').replace(/\D/g,'');
     }
 
-    function uid(){
-      return (crypto && crypto.randomUUID)
-        ? crypto.randomUUID()
-        : 'id_' + Date.now() + '_' + Math.random().toString(16).slice(2);
+    function escapeHtml(s){
+      return String(s ?? '').replace(/[&<>'"]/g, ch => ({
+        '&':'&amp;',
+        '<':'&lt;',
+        '>':'&gt;',
+        "'":'&#39;',
+        '"':'&quot;'
+      }[ch]));
+    }
+
+    function formatData(s){
+      if (!s) return '-';
+      const [a,m,d] = String(s).slice(0,10).split('-');
+      return d && m && a ? `${d}/${m}/${a}` : s;
+    }
+
+    function formatQtd(v){
+      const n = parseNum(v);
+      return Number.isInteger(n) ? String(n) : n.toLocaleString('pt-BR');
+    }
+
+    function toast(msg){
+      const t = el('toast');
+      t.textContent = msg;
+      t.classList.add('show');
+      clearTimeout(window.__toastTimer);
+      window.__toastTimer = setTimeout(() => t.classList.remove('show'), 2600);
+    }
+
+    function abrirDB(){
+      return new Promise((resolve, reject) => {
+        if (!window.indexedDB) {
+          reject(new Error('IndexedDB não está disponível neste dispositivo.'));
+          return;
+        }
+
+        const req = indexedDB.open(DB_NAME, DB_VERSION);
+
+        req.onupgradeneeded = (event) => {
+          const database = event.target.result;
+          let store;
+
+          if (!database.objectStoreNames.contains(STORE)) {
+            store = database.createObjectStore(STORE, { keyPath:'id' });
+          } else {
+            store = event.target.transaction.objectStore(STORE);
+          }
+
+          criarIndiceSeguro(store, 'nome', 'nome');
+          criarIndiceSeguro(store, 'status', 'status');
+          criarIndiceSeguro(store, 'dataVenda', 'dataVenda');
+          criarIndiceSeguro(store, 'atualizadoEm', 'atualizadoEm');
+          criarIndiceSeguro(store, 'clienteKey', 'clienteKey');
+        };
+
+        req.onsuccess = () => {
+          db = req.result;
+          db.onversionchange = () => {
+            try { db.close(); } catch (_) {}
+          };
+          resolve(db);
+        };
+
+        req.onerror = () => reject(req.error || new Error('Erro ao abrir banco.'));
+        req.onblocked = () => reject(new Error('Banco bloqueado. Feche e abra o aplicativo novamente.'));
+      });
+    }
+
+    function criarIndiceSeguro(store, nome, campo){
+      try {
+        if (!store.indexNames.contains(nome)) {
+          store.createIndex(nome, campo, { unique:false });
+        }
+      } catch (err) {
+        console.warn('Índice ignorado:', nome, err);
+      }
+    }
+
+    function tx(mode='readonly'){
+      if (!db) throw new Error('Banco ainda não foi iniciado.');
+      return db.transaction(STORE, mode).objectStore(STORE);
+    }
+
+    function listarTodos(){
+      return new Promise((resolve, reject) => {
+        try {
+          const req = tx('readonly').getAll();
+          req.onsuccess = () => resolve(req.result || []);
+          req.onerror = () => reject(req.error);
+        } catch (err) {
+          reject(err);
+        }
+      });
+    }
+
+    function salvarRegistro(item){
+      return new Promise((resolve, reject) => {
+        try {
+          const req = tx('readwrite').put(item);
+          req.onsuccess = () => resolve(item);
+          req.onerror = () => reject(req.error);
+        } catch (err) {
+          reject(err);
+        }
+      });
+    }
+
+    function buscarPorId(id){
+      return new Promise((resolve, reject) => {
+        try {
+          const req = tx('readonly').get(id);
+          req.onsuccess = () => resolve(req.result || null);
+          req.onerror = () => reject(req.error);
+        } catch (err) {
+          reject(err);
+        }
+      });
+    }
+
+    function apagarRegistro(id){
+      return new Promise((resolve, reject) => {
+        try {
+          const req = tx('readwrite').delete(id);
+          req.onsuccess = () => resolve(true);
+          req.onerror = () => reject(req.error);
+        } catch (err) {
+          reject(err);
+        }
+      });
     }
 
     function clienteKeyDe(item){
@@ -897,6 +956,11 @@
       return item && item.produto ? item.produto : 'Produto não informado';
     }
 
+    function estaAtrasado(item){
+      if (!item.vencimento || item.status === 'pago') return false;
+      return item.vencimento < hojeISO();
+    }
+
     function textoStatusCompra(item){
       if (estaAtrasado(item)) return 'Atrasada';
       if (item.status === 'pago') return 'Quitada';
@@ -909,6 +973,13 @@
       if (item.status === 'pago') return 'pago';
       if (item.status === 'parcial') return 'parcial';
       return 'aberto';
+    }
+
+    function diasEmAberto(item){
+      const base = item.dataVenda || (item.criadoEm ? item.criadoEm.slice(0,10) : hojeISO());
+      const d1 = new Date(base + 'T00:00:00');
+      const d2 = new Date(hojeISO() + 'T00:00:00');
+      return Math.max(0, Math.ceil((d2 - d1) / (1000*60*60*24)));
     }
 
     function agruparPorCliente(items){
@@ -928,11 +999,12 @@
             saldo: 0,
             atrasado: false,
             principal: item,
-            ultimaData: item.criadoEm || item.atualizadoEm || ''
+            ultimaData: item.atualizadoEm || item.criadoEm || ''
           });
         }
 
         const grupo = mapa.get(key);
+
         grupo.compras.push(item);
         grupo.total += parseNum(item.valorTotal);
         grupo.pago += parseNum(item.valorPago);
@@ -940,7 +1012,7 @@
 
         if (estaAtrasado(item)) grupo.atrasado = true;
 
-        const dataRef = item.criadoEm || item.atualizadoEm || '';
+        const dataRef = item.atualizadoEm || item.criadoEm || '';
         if (String(dataRef).localeCompare(String(grupo.ultimaData)) > 0) {
           grupo.ultimaData = dataRef;
           grupo.principal = item;
@@ -957,108 +1029,36 @@
       }));
     }
 
-    function toast(msg){
-      const t = el('toast');
-      t.textContent = msg;
-      t.classList.add('show');
-      clearTimeout(window.__toastTimer);
-      window.__toastTimer = setTimeout(() => t.classList.remove('show'), 2600);
-    }
-
-    function abrirDB(){
-      return new Promise((resolve, reject) => {
-        const req = indexedDB.open(DB_NAME, DB_VERSION);
-
-        req.onupgradeneeded = (event) => {
-          const database = event.target.result;
-          let store;
-
-          if (!database.objectStoreNames.contains(STORE)) {
-            store = database.createObjectStore(STORE, { keyPath:'id' });
-          } else {
-            store = event.target.transaction.objectStore(STORE);
-          }
-
-          if (!store.indexNames.contains('nome')) {
-            store.createIndex('nome', 'nome', { unique:false });
-          }
-
-          if (!store.indexNames.contains('status')) {
-            store.createIndex('status', 'status', { unique:false });
-          }
-
-          if (!store.indexNames.contains('dataVenda')) {
-            store.createIndex('dataVenda', 'dataVenda', { unique:false });
-          }
-
-          if (!store.indexNames.contains('atualizadoEm')) {
-            store.createIndex('atualizadoEm', 'atualizadoEm', { unique:false });
-          }
-
-          if (!store.indexNames.contains('clienteKey')) {
-            store.createIndex('clienteKey', 'clienteKey', { unique:false });
-          }
-        };
-
-        req.onsuccess = () => {
-          db = req.result;
-          resolve(db);
-        };
-
-        req.onerror = () => reject(req.error);
-      });
-    }
-
-    function tx(mode='readonly'){
-      return db.transaction(STORE, mode).objectStore(STORE);
-    }
-
-    function listarTodos(){
-      return new Promise((resolve, reject) => {
-        const req = tx('readonly').getAll();
-        req.onsuccess = () => resolve(req.result || []);
-        req.onerror = () => reject(req.error);
-      });
-    }
-
-    function salvarRegistro(item){
-      return new Promise((resolve, reject) => {
-        const req = tx('readwrite').put(item);
-        req.onsuccess = () => resolve(item);
-        req.onerror = () => reject(req.error);
-      });
-    }
-
-    function buscarPorId(id){
-      return new Promise((resolve, reject) => {
-        const req = tx('readonly').get(id);
-        req.onsuccess = () => resolve(req.result || null);
-        req.onerror = () => reject(req.error);
-      });
-    }
-
-    function apagarRegistro(id){
-      return new Promise((resolve, reject) => {
-        const req = tx('readwrite').delete(id);
-        req.onsuccess = () => resolve(true);
-        req.onerror = () => reject(req.error);
-      });
-    }
-
     function mostrarCadastro(){
       el('cadastroBody').classList.remove('minimized');
-      el('btnToggleCadastro').textContent = 'Minimizar';
+      el('btnToggleCadastro').textContent = 'Minimizar cadastro';
     }
 
     function minimizarCadastro(){
       el('cadastroBody').classList.add('minimized');
-      el('btnToggleCadastro').textContent = 'Maximizar';
+      el('btnToggleCadastro').textContent = 'Abrir cadastro';
     }
 
     function alternarCadastro(){
       const fechado = el('cadastroBody').classList.contains('minimized');
       if (fechado) mostrarCadastro();
       else minimizarCadastro();
+    }
+
+    function mostrarBackup(){
+      el('backupBody').classList.remove('minimized');
+      el('btnToggleBackup').textContent = 'Minimizar backup';
+    }
+
+    function minimizarBackup(){
+      el('backupBody').classList.add('minimized');
+      el('btnToggleBackup').textContent = 'Abrir backup';
+    }
+
+    function alternarBackup(){
+      const fechado = el('backupBody').classList.contains('minimized');
+      if (fechado) mostrarBackup();
+      else minimizarBackup();
     }
 
     function limparFormulario(){
@@ -1070,8 +1070,8 @@
       el('quantidade').value = '1';
       el('valorPago').value = '0';
       el('status').value = 'aberto';
-      el('formTitle').textContent = 'Nova venda fiada';
-      el('btnSalvar').textContent = 'Salvar fiado';
+      el('formTitle').textContent = 'Nova venda';
+      el('btnSalvar').textContent = 'Salvar venda';
       atualizarTotalPreview();
     }
 
@@ -1085,8 +1085,8 @@
       el('nome').value = nomeAtual;
       el('telefone').value = telefoneAtual;
       el('clienteKey').value = keyAtual;
-      el('formTitle').textContent = nomeAtual ? 'Nova compra para cliente' : 'Nova compra';
-      el('btnSalvar').textContent = 'Salvar nova compra';
+      el('formTitle').textContent = nomeAtual ? 'Nova venda para cliente' : 'Nova venda';
+      el('btnSalvar').textContent = 'Salvar nova venda';
 
       mostrarCadastro();
       atualizarTotalPreview();
@@ -1113,13 +1113,13 @@
       el('valorUnitario').value = '';
       el('vencimento').value = '';
       el('observacoes').value = '';
-      el('formTitle').textContent = 'Nova compra para cliente';
-      el('btnSalvar').textContent = 'Salvar nova compra';
+      el('formTitle').textContent = 'Nova venda para cliente';
+      el('btnSalvar').textContent = 'Salvar nova venda';
 
       mostrarCadastro();
       atualizarTotalPreview();
       window.scrollTo({top:0, behavior:'smooth'});
-      toast('Cliente carregado. Informe a nova compra.');
+      toast('Cliente carregado. Informe a nova venda.');
     }
 
     function calcularObjetoDoFormulario(){
@@ -1153,16 +1153,65 @@
       el('totalPreview').textContent = moeda(c.valorTotal);
     }
 
-    function estaAtrasado(item){
-      if (!item.vencimento || item.status === 'pago') return false;
-      return item.vencimento < hojeISO();
-    }
+    async function onSubmit(e){
+      e.preventDefault();
 
-    function diasEmAberto(item){
-      const base = item.dataVenda || item.criadoEm?.slice(0,10) || hojeISO();
-      const d1 = new Date(base + 'T00:00:00');
-      const d2 = new Date(hojeISO() + 'T00:00:00');
-      return Math.max(0, Math.ceil((d2 - d1) / (1000*60*60*24)));
+      try {
+        const c = calcularObjetoDoFormulario();
+
+        const editId = el('editId').value.trim();
+        const id = editId || uid();
+        const existente = editId ? await buscarPorId(id) : null;
+
+        const nomeInformado = el('nome').value.trim();
+        const telefoneInformado = el('telefone').value.trim();
+        const produtoInformado = el('produto').value.trim();
+        const dataInformada = el('dataVenda').value || hojeISO();
+
+        let keyFinal = el('clienteKey').value.trim();
+
+        if (!keyFinal && existente && existente.clienteKey) {
+          keyFinal = existente.clienteKey;
+        }
+
+        if (!keyFinal) {
+          keyFinal = clienteKeyDe({
+            id,
+            nome:nomeInformado,
+            telefone:telefoneInformado
+          });
+        }
+
+        const item = {
+          id,
+          nome: nomeInformado,
+          telefone: telefoneInformado,
+          clienteKey: keyFinal,
+          produto: produtoInformado,
+          quantidade: c.quantidade,
+          valorUnitario: c.valorUnitario,
+          valorTotal: c.valorTotal,
+          valorPago: c.valorPago,
+          saldo: c.saldo,
+          status: c.status,
+          dataVenda: dataInformada,
+          vencimento: el('vencimento').value,
+          observacoes: el('observacoes').value.trim(),
+          clienteOrigemId: el('clienteOrigemId').value || (existente && existente.clienteOrigemId ? existente.clienteOrigemId : ''),
+          criadoEm: existente && existente.criadoEm ? existente.criadoEm : agoraISO(),
+          atualizadoEm: agoraISO()
+        };
+
+        await salvarRegistro(item);
+        await recarregar();
+        limparFormulario();
+        minimizarCadastro();
+
+        toast('Venda salva com sucesso.');
+      } catch (err) {
+        console.error('Erro ao salvar venda:', err);
+        alert('Erro ao salvar venda: ' + (err && err.message ? err.message : err));
+      }
     }
 
     function renderStats(items){
@@ -1194,7 +1243,9 @@
       }
 
       if (filtroStatus !== 'todos') {
-        if (filtroStatus === 'atrasado') {
+        if (filtroStatus === 'devedores') {
+          items = items.filter(i => parseNum(i.saldo) > 0);
+        } else if (filtroStatus === 'atrasado') {
           items = items.filter(estaAtrasado);
         } else {
           items = items.filter(i => i.status === filtroStatus);
@@ -1202,6 +1253,10 @@
       }
 
       let grupos = agruparPorCliente(items);
+
+      if (filtroStatus === 'devedores') {
+        grupos = grupos.filter(g => parseNum(g.saldo) > 0);
+      }
 
       grupos.sort((a,b) => {
         if (ordenacao === 'antigos') {
@@ -1211,7 +1266,6 @@
         }
 
         if (ordenacao === 'maior_saldo') return parseNum(b.saldo) - parseNum(a.saldo);
-
         if (ordenacao === 'nome') return String(a.nome || '').localeCompare(String(b.nome || ''), 'pt-BR');
 
         return String(b.ultimaData || '').localeCompare(String(a.ultimaData || ''));
@@ -1222,7 +1276,8 @@
       el('empty').classList.toggle('hidden', grupos.length > 0);
 
       grupos.forEach(grupo => {
-        const grupoPago = grupo.saldo <= 0;
+        const grupoPago = parseNum(grupo.saldo) <= 0;
+
         const statusClass = grupo.atrasado && !grupoPago
           ? 'late'
           : grupoPago
@@ -1239,41 +1294,40 @@
               ? 'Recebeu parte'
               : 'Em aberto';
 
-        const comprasOrdenadas = grupo.compras
+        const comprasOrdenadas = [...grupo.compras]
           .sort((a,b) => String(b.dataVenda || b.criadoEm || '').localeCompare(String(a.dataVenda || a.criadoEm || '')));
 
-        const comprasHtml = comprasOrdenadas
-          .map(item => `
-            <div class="compraBloco">
-              <div class="debtTop" style="margin-bottom:4px">
-                <div>
-                  <div class="product">
-                    <b>${escapeHtml(produtoExibicao(item))}</b> • Qtd ${formatQtd(item.quantidade)} • ${formatData(item.dataVenda)}
-                  </div>
+        const comprasHtml = comprasOrdenadas.map(item => `
+          <div class="compraBloco">
+            <div class="debtTop" style="margin-bottom:4px">
+              <div>
+                <div class="product">
+                  <b>${escapeHtml(produtoExibicao(item))}</b> • Qtd ${formatQtd(item.quantidade)} • ${formatData(item.dataVenda)}
                 </div>
-                <span class="badge ${classeStatusCompra(item)}">${textoStatusCompra(item)}</span>
               </div>
-
-              <div class="moneyGrid">
-                <div>Total da compra<strong>${moeda(item.valorTotal)}</strong></div>
-                <div>Recebido<strong>${moeda(item.valorPago)}</strong></div>
-                <div>Falta receber<strong>${moeda(item.saldo)}</strong></div>
-              </div>
-
-              <div class="muted">
-                ${item.vencimento ? `Vencimento: <b>${formatData(item.vencimento)}</b> • ` : ''}
-                ${diasEmAberto(item)} dia(s) desde a venda
-                ${item.observacoes ? `<br>Obs: ${escapeHtml(item.observacoes)}` : ''}
-              </div>
-
-              <div class="debtActions">
-                <button class="btnBlue" data-act="editar" data-id="${item.id}">Editar compra</button>
-                <button class="btnGreen" data-act="receber" data-id="${item.id}" ${item.status === 'pago' ? 'disabled' : ''}>Receber desta compra</button>
-                <button class="btnSoft" data-act="quitar" data-id="${item.id}" ${item.status === 'pago' ? 'disabled' : ''}>Quitar esta compra</button>
-                <button class="btnDanger" data-act="apagar" data-id="${item.id}">Excluir</button>
-              </div>
+              <span class="badge ${classeStatusCompra(item)}">${textoStatusCompra(item)}</span>
             </div>
-          `).join('');
+
+            <div class="moneyGrid">
+              <div>Total<strong>${moeda(item.valorTotal)}</strong></div>
+              <div>Recebido<strong>${moeda(item.valorPago)}</strong></div>
+              <div>Falta<strong>${moeda(item.saldo)}</strong></div>
+            </div>
+
+            <div class="muted">
+              ${item.vencimento ? `Vencimento: <b>${formatData(item.vencimento)}</b> • ` : ''}
+              ${diasEmAberto(item)} dia(s)
+              ${item.observacoes ? `<br>Obs: ${escapeHtml(item.observacoes)}` : ''}
+            </div>
+
+            <div class="debtActions">
+              <button class="btnBlue" data-act="editar" data-id="${escapeHtml(item.id)}">Editar venda</button>
+              <button class="btnGreen" data-act="receber" data-id="${escapeHtml(item.id)}" ${item.status === 'pago' ? 'disabled' : ''}>Receber desta</button>
+              <button class="btnSoft" data-act="quitar" data-id="${escapeHtml(item.id)}" ${item.status === 'pago' ? 'disabled' : ''}>Quitar esta</button>
+              <button class="btnDanger" data-act="apagar" data-id="${escapeHtml(item.id)}">Excluir</button>
+            </div>
+          </div>
+        `).join('');
 
         const div = document.createElement('article');
         div.className = 'debt';
@@ -1283,26 +1337,26 @@
             <div>
               <div class="client">${escapeHtml(grupo.nome)}</div>
               <div class="product">
-                ${escapeHtml(grupo.telefone || 'sem telefone')} • ${grupo.compras.length} compra(s) vinculada(s)
+                ${escapeHtml(grupo.telefone || 'sem telefone')} • ${grupo.compras.length} venda(s)
               </div>
             </div>
             <span class="badge ${statusClass}">${statusText}</span>
           </div>
 
           <div class="moneyGrid">
-            <div>Total comprado<strong>${moeda(grupo.total)}</strong></div>
-            <div>Total recebido<strong>${moeda(grupo.pago)}</strong></div>
-            <div>Dívida atual<strong>${moeda(grupo.saldo)}</strong></div>
+            <div>Total vendido<strong>${moeda(grupo.total)}</strong></div>
+            <div>Recebido<strong>${moeda(grupo.pago)}</strong></div>
+            <div>Pendente<strong>${moeda(grupo.saldo)}</strong></div>
           </div>
 
           <div class="debtActions">
-            <button class="btnSoft" data-act="toggleCompras" data-key="${escapeHtml(grupo.key)}">Ver compras</button>
-            <button class="btnGreen" data-act="novaCompra" data-id="${grupo.principal.id}">Nova compra</button>
-            <button class="btnBlue" data-act="receberCliente" data-key="${escapeHtml(grupo.key)}" ${grupoPago ? 'disabled' : ''}>Receber do cliente</button>
-            <button class="btnSoft" data-act="quitarCliente" data-key="${escapeHtml(grupo.key)}" ${grupoPago ? 'disabled' : ''}>Quitar cliente</button>
+            <button class="btnSoft" data-act="toggleCliente" data-key="${escapeHtml(grupo.key)}">Abrir detalhes</button>
+            <button class="btnGreen" data-act="novaCompra" data-id="${escapeHtml(grupo.principal.id)}">Nova venda</button>
+            <button class="btnBlue" data-act="receberCliente" data-key="${escapeHtml(grupo.key)}" ${grupoPago ? 'disabled' : ''}>Receber cliente</button>
+            <button class="btnWarn" data-act="quitarCliente" data-key="${escapeHtml(grupo.key)}" ${grupoPago ? 'disabled' : ''}>Quitar cliente</button>
           </div>
 
-          <div class="clienteCompras minimized" data-compras-key="${escapeHtml(grupo.key)}">
+          <div class="clienteDetalhes minimized" data-cliente-key="${escapeHtml(grupo.key)}">
             ${comprasHtml}
           </div>
         `;
@@ -1311,42 +1365,25 @@
       });
     }
 
-    function alternarComprasCliente(clienteKey, botao){
-      const bloco = document.querySelector(`[data-compras-key="${CSS.escape(clienteKey)}"]`);
+    function alternarCliente(clienteKey, botao){
+      const blocos = document.querySelectorAll('[data-cliente-key]');
+      let bloco = null;
+
+      blocos.forEach(b => {
+        if (b.getAttribute('data-cliente-key') === clienteKey) bloco = b;
+      });
+
       if (!bloco) return;
 
       const minimizado = bloco.classList.contains('minimized');
 
       if (minimizado) {
         bloco.classList.remove('minimized');
-        botao.textContent = 'Minimizar';
+        botao.textContent = 'Minimizar detalhes';
       } else {
         bloco.classList.add('minimized');
-        botao.textContent = 'Ver compras';
+        botao.textContent = 'Abrir detalhes';
       }
-    }
-
-    function escapeHtml(s){
-      return String(s ?? '').replace(/[&<>'"]/g, ch => ({
-        '&':'&amp;',
-        '<':'&lt;',
-        '>':'&gt;',
-        "'":'&#39;',
-        '"':'&quot;'
-      }[ch]));
-    }
-
-    function formatData(s){
-      if (!s) return '-';
-
-      const [a,m,d] = String(s).slice(0,10).split('-');
-
-      return d && m && a ? `${d}/${m}/${a}` : s;
-    }
-
-    function formatQtd(v){
-      const n = parseNum(v);
-      return Number.isInteger(n) ? String(n) : n.toLocaleString('pt-BR');
     }
 
     async function recarregar(){
@@ -1357,6 +1394,21 @@
       fiadosCache.forEach(item => {
         if (!item.clienteKey) {
           item.clienteKey = clienteKeyDe(item);
+          precisaMigrar = true;
+        }
+
+        item.quantidade = parseNum(item.quantidade);
+        item.valorUnitario = parseNum(item.valorUnitario);
+        item.valorTotal = parseNum(item.valorTotal);
+        item.valorPago = parseNum(item.valorPago);
+        item.saldo = parseNum(item.saldo);
+
+        if (!item.dataVenda) item.dataVenda = hojeISO();
+        if (!item.criadoEm) item.criadoEm = agoraISO();
+        if (!item.atualizadoEm) item.atualizadoEm = agoraISO();
+
+        if (!['aberto','parcial','pago'].includes(item.status)) {
+          item.status = item.saldo <= 0 && item.valorTotal > 0 ? 'pago' : item.valorPago > 0 ? 'parcial' : 'aberto';
           precisaMigrar = true;
         }
       });
@@ -1372,68 +1424,16 @@
       renderStats(fiadosCache);
       renderLista();
 
-      el('dbStatus').textContent = `${fiadosCache.length} registro(s) no celular`;
+      const grupos = agruparPorCliente(fiadosCache);
+      const devedores = grupos.filter(g => parseNum(g.saldo) > 0).length;
 
+      el('dbStatus').textContent = `${devedores} devedor(es)`;
       atualizarDbInfo();
       salvarSnapshotNativoSilencioso();
     }
 
-    async function onSubmit(e){
-      e.preventDefault();
-
-      const c = calcularObjetoDoFormulario();
-      const id = el('editId').value || uid();
-      const existente = el('editId').value ? await buscarPorId(id) : null;
-
-      const nomeInformado = el('nome').value.trim();
-      const telefoneInformado = el('telefone').value.trim();
-      const produtoInformado = el('produto').value.trim();
-      const dataInformada = el('dataVenda').value || hojeISO();
-
-      let keyFinal = el('clienteKey').value.trim();
-
-      if (!keyFinal && existente && existente.clienteKey) {
-        keyFinal = existente.clienteKey;
-      }
-
-      if (!keyFinal) {
-        keyFinal = clienteKeyDe({
-          id,
-          nome:nomeInformado,
-          telefone:telefoneInformado
-        });
-      }
-
-      const item = {
-        id,
-        nome: nomeInformado,
-        telefone: telefoneInformado,
-        clienteKey: keyFinal,
-        produto: produtoInformado,
-        quantidade: c.quantidade,
-        valorUnitario: c.valorUnitario,
-        valorTotal: c.valorTotal,
-        valorPago: c.valorPago,
-        saldo: c.saldo,
-        status: c.status,
-        dataVenda: dataInformada,
-        vencimento: el('vencimento').value,
-        observacoes: el('observacoes').value.trim(),
-        clienteOrigemId: el('clienteOrigemId').value || existente?.clienteOrigemId || '',
-        criadoEm: existente?.criadoEm || agoraISO(),
-        atualizadoEm: agoraISO()
-      };
-
-      await salvarRegistro(item);
-      await recarregar();
-      limparFormulario();
-
-      toast('Compra salva e vinculada ao cliente.');
-    }
-
     async function editar(id){
       const item = await buscarPorId(id);
-
       if (!item) return toast('Registro não encontrado.');
 
       el('editId').value = item.id;
@@ -1449,7 +1449,7 @@
       el('vencimento').value = item.vencimento || '';
       el('status').value = item.status || 'aberto';
       el('observacoes').value = item.observacoes || '';
-      el('formTitle').textContent = 'Editar compra';
+      el('formTitle').textContent = 'Editar venda';
       el('btnSalvar').textContent = 'Salvar alterações';
 
       mostrarCadastro();
@@ -1460,7 +1460,6 @@
 
     async function quitar(id){
       const item = await buscarPorId(id);
-
       if (!item) return;
 
       item.valorPago = parseNum(item.valorTotal);
@@ -1472,36 +1471,32 @@
       await salvarRegistro(item);
       await recarregar();
 
-      toast('Compra quitada.');
+      toast('Venda quitada.');
     }
 
     async function abrirPagamento(id){
       const item = await buscarPorId(id);
-
       if (!item) return;
 
-      const nomeExibicao = nomeClienteExibicao(item);
-      const produtoNome = produtoExibicao(item);
-
-      el('dialogPagamentoTitulo').textContent = 'Receber desta compra';
-      el('labelValorReceber').textContent = 'Valor recebido para esta compra (R$)';
+      el('dialogPagamentoTitulo').textContent = 'Receber desta venda';
+      el('labelValorReceber').textContent = 'Valor recebido para esta venda (R$)';
       el('pagamentoId').value = id;
       el('valorReceber').value = '';
 
       el('pagamentoResumo').innerHTML = `
-        <b>${escapeHtml(nomeExibicao)}</b><br>
-        Compra: <b>${escapeHtml(produtoNome)}</b><br>
-        Total da compra: <b>${moeda(item.valorTotal)}</b><br>
-        Já recebido nesta compra: <b>${moeda(item.valorPago)}</b><br>
-        Falta receber nesta compra: <b>${moeda(item.saldo)}</b>
+        <b>${escapeHtml(nomeClienteExibicao(item))}</b><br>
+        Venda: <b>${escapeHtml(produtoExibicao(item))}</b><br>
+        Total: <b>${moeda(item.valorTotal)}</b><br>
+        Recebido: <b>${moeda(item.valorPago)}</b><br>
+        Pendente: <b>${moeda(item.saldo)}</b>
       `;
 
-      el('pagamentoAviso').textContent = 'Este recebimento será abatido somente desta compra específica.';
+      el('pagamentoAviso').textContent = 'Este recebimento será abatido somente desta venda.';
       el('dialogPagamento').showModal();
     }
 
     async function abrirPagamentoCliente(clienteKey){
-      const compras = fiadosCache.filter(i => clienteKeyDe(i) === clienteKey && i.status !== 'pago');
+      const compras = fiadosCache.filter(i => clienteKeyDe(i) === clienteKey && parseNum(i.saldo) > 0);
 
       if (!compras.length) return toast('Cliente sem saldo pendente.');
 
@@ -1517,13 +1512,13 @@
 
       el('pagamentoResumo').innerHTML = `
         <b>${escapeHtml(nomeClienteExibicao(principal))}</b><br>
-        Compras pendentes: <b>${compras.length}</b><br>
-        Total comprado pendente: <b>${moeda(totalComprado)}</b><br>
-        Já recebido nessas compras: <b>${moeda(totalRecebido)}</b><br>
-        Dívida atual do cliente: <b>${moeda(totalSaldo)}</b>
+        Vendas pendentes: <b>${compras.length}</b><br>
+        Total vendido: <b>${moeda(totalComprado)}</b><br>
+        Total recebido: <b>${moeda(totalRecebido)}</b><br>
+        Saldo pendente: <b>${moeda(totalSaldo)}</b>
       `;
 
-      el('pagamentoAviso').textContent = 'Este recebimento será abatido automaticamente das compras mais antigas para as mais novas.';
+      el('pagamentoAviso').textContent = 'O valor será abatido das vendas mais antigas para as mais novas.';
       el('dialogPagamento').showModal();
     }
 
@@ -1533,7 +1528,7 @@
       if (restante <= 0) return toast('Informe um valor recebido.');
 
       const compras = fiadosCache
-        .filter(i => clienteKeyDe(i) === clienteKey && i.status !== 'pago')
+        .filter(i => clienteKeyDe(i) === clienteKey && parseNum(i.saldo) > 0)
         .sort((a,b) => String(a.dataVenda || a.criadoEm || '').localeCompare(String(b.dataVenda || b.criadoEm || '')));
 
       if (!compras.length) return toast('Cliente sem saldo pendente.');
@@ -1556,10 +1551,9 @@
       }
 
       el('dialogPagamento').close();
-
       await recarregar();
 
-      toast('Pagamento abatido na dívida total do cliente.');
+      toast('Recebimento lançado no cliente.');
     }
 
     async function confirmarPagamento(quitarTudo=false){
@@ -1567,7 +1561,7 @@
 
       if (id.startsWith('cliente::')) {
         const clienteKey = id.replace('cliente::', '');
-        const compras = fiadosCache.filter(i => clienteKeyDe(i) === clienteKey && i.status !== 'pago');
+        const compras = fiadosCache.filter(i => clienteKeyDe(i) === clienteKey && parseNum(i.saldo) > 0);
         const saldoCliente = compras.reduce((s,i)=>s + parseNum(i.saldo),0);
         const recebidoAgora = quitarTudo ? saldoCliente : parseNum(el('valorReceber').value);
 
@@ -1575,7 +1569,6 @@
       }
 
       const item = await buscarPorId(id);
-
       if (!item) return;
 
       const recebidoAgora = quitarTudo ? parseNum(item.saldo) : parseNum(el('valorReceber').value);
@@ -1591,20 +1584,23 @@
       await salvarRegistro(item);
 
       el('dialogPagamento').close();
-
       await recarregar();
 
-      toast('Pagamento registrado.');
+      toast('Recebimento registrado.');
     }
 
     async function quitarCliente(clienteKey){
-      const compras = fiadosCache.filter(i => clienteKeyDe(i) === clienteKey && i.status !== 'pago');
+      const compras = fiadosCache.filter(i => clienteKeyDe(i) === clienteKey && parseNum(i.saldo) > 0);
 
-      if (!compras.length) return toast('Cliente sem saldo pendente.');
+      if (!compras.length) {
+        toast('Cliente sem saldo pendente.');
+        return;
+      }
 
       const nome = nomeClienteExibicao(compras[0]);
+      const saldoTotal = compras.reduce((s,i)=>s + parseNum(i.saldo),0);
 
-      if (!confirm(`Quitar todas as compras pendentes de ${nome}?`)) return;
+      if (!confirm(`Quitar todas as pendências de ${nome}?\n\nSaldo pendente: ${moeda(saldoTotal)}\nVendas pendentes: ${compras.length}`)) return;
 
       for (const item of compras) {
         item.valorPago = parseNum(item.valorTotal);
@@ -1618,38 +1614,35 @@
 
       await recarregar();
 
-      toast('Cliente quitado.');
+      toast('Cliente quitado com sucesso.');
     }
 
     async function excluir(id){
       const item = await buscarPorId(id);
-
       if (!item) return;
 
-      const nomeExibicao = nomeClienteExibicao(item);
-      const produtoNome = produtoExibicao(item);
-
-      if (!confirm(`Excluir esta compra de ${nomeExibicao}?\n\nProduto: ${produtoNome}\nValor: ${moeda(item.valorTotal)}`)) return;
+      if (!confirm(`Excluir esta venda de ${nomeClienteExibicao(item)}?\n\nProduto: ${produtoExibicao(item)}\nValor: ${moeda(item.valorTotal)}`)) return;
 
       await apagarRegistro(id);
       await recarregar();
 
-      toast('Registro excluído.');
+      toast('Venda excluída.');
     }
 
     function backupObjeto(){
       return {
-        app: 'Controle de Fiados - thIAguinho Soluções',
-        formato: 'thiaguinho-controle-fiados-json-v1',
+        app: 'Controle de Vendas - thIAguinho Soluções',
+        formato: 'thiaguinho-controle-vendas-json-v1',
         geradoEm: agoraISO(),
         totalRegistros: fiadosCache.length,
         totalClientes: agruparPorCliente(fiadosCache).length,
+        vendas: fiadosCache,
         fiados: fiadosCache
       };
     }
 
     function nomeArquivoBase(){
-      return `controle_fiados_${new Date().toISOString().slice(0,19).replace(/[T:]/g,'-')}`;
+      return `controle_vendas_${new Date().toISOString().slice(0,19).replace(/[T:]/g,'-')}`;
     }
 
     function downloadBlob(blob, filename){
@@ -1675,7 +1668,7 @@
 
       if (!saved) downloadBlob(new Blob([json], {type:'application/json'}), filename);
 
-      toast('Backup JSON exportado.');
+      toast('JSON exportado.');
     }
 
     function gerarCsv(){
@@ -1722,7 +1715,7 @@
 
       if (!saved) downloadBlob(new Blob(['\ufeff' + csv], {type:'text/csv;charset=utf-8'}), filename);
 
-      toast('Planilha CSV exportada.');
+      toast('CSV exportado.');
     }
 
     async function salvarArquivoNativo(filename, content, mime){
@@ -1734,10 +1727,10 @@
         if (!Filesystem) return false;
 
         const base64 = btoa(unescape(encodeURIComponent(content)));
-        const path = `ControleFiados/${filename}`;
+        const path = `ControleVendas/${filename}`;
 
         await Filesystem.mkdir({
-          path:'ControleFiados',
+          path:'ControleVendas',
           directory:'DOCUMENTS',
           recursive:true
         }).catch(()=>{});
@@ -1751,8 +1744,8 @@
 
         if (Share && result && result.uri) {
           await Share.share({
-            title:'Backup Controle de Fiados',
-            text:'Arquivo exportado pelo Controle de Fiados.',
+            title:'Backup Controle de Vendas',
+            text:'Arquivo exportado pelo Controle de Vendas.',
             url:result.uri,
             dialogTitle:'Salvar ou compartilhar backup'
           }).catch(()=>{});
@@ -1776,7 +1769,7 @@
         const base64 = btoa(unescape(encodeURIComponent(json)));
 
         await Filesystem.writeFile({
-          path:'controle_fiados_snapshot.json',
+          path:'controle_vendas_snapshot.json',
           data:base64,
           directory:'DATA',
           recursive:true
@@ -1800,8 +1793,12 @@
 
       if (Array.isArray(data)) {
         arr = data;
+      } else if (Array.isArray(data.vendas)) {
+        arr = data.vendas;
       } else if (Array.isArray(data.fiados)) {
         arr = data.fiados;
+      } else if (data.vendas && typeof data.vendas === 'object') {
+        arr = Object.entries(data.vendas).map(([id,v]) => ({id, ...v}));
       } else if (data.fiados && typeof data.fiados === 'object') {
         arr = Object.entries(data.fiados).map(([id,v]) => ({id, ...v}));
       } else {
@@ -1867,9 +1864,7 @@
 
       const arr = rows.slice(1).map(cols => {
         const obj = {};
-
         headers.forEach((h,i) => obj[h] = cols[i] ?? '');
-
         return obj;
       });
 
@@ -1877,7 +1872,7 @@
 
       await recarregar();
 
-      toast(`${qtd} registro(s) importado(s) da planilha.`);
+      toast(`${qtd} registro(s) importado(s).`);
     }
 
     async function importarLista(arr){
@@ -1885,9 +1880,7 @@
 
       for (const raw of arr) {
         const item = normalizarItemImportado(raw);
-
         await salvarRegistro(item);
-
         count++;
       }
 
@@ -1945,16 +1938,16 @@
 
     function atualizarDbInfo(){
       const grupos = agruparPorCliente(fiadosCache);
+      const devedores = grupos.filter(g => parseNum(g.saldo) > 0);
 
       const info = {
-        app: 'Controle de Fiados',
+        app: 'Controle de Vendas',
         banco: DB_NAME,
         versaoBanco: DB_VERSION,
         store: STORE,
-        registros: fiadosCache.length,
+        vendas: fiadosCache.length,
         clientes: grupos.length,
-        ambiente: window.Capacitor ? 'APK Android / Capacitor' : 'Navegador',
-        armazenamento: 'IndexedDB local do dispositivo'
+        devedores: devedores.length
       };
 
       el('dbInfo').textContent = JSON.stringify(info, null, 2);
@@ -1967,9 +1960,14 @@
         el(id).addEventListener('input', atualizarTotalPreview);
       });
 
-      el('btnNovo').addEventListener('click', limparFormulario);
+      el('btnNovo').addEventListener('click', () => {
+        limparFormulario();
+        mostrarCadastro();
+      });
+
       el('btnNovaCompraForm').addEventListener('click', iniciarNovaCompraManual);
       el('btnToggleCadastro').addEventListener('click', alternarCadastro);
+      el('btnToggleBackup').addEventListener('click', alternarBackup);
       el('btnRecarregar').addEventListener('click', recarregar);
 
       el('busca').addEventListener('input', renderLista);
@@ -1978,7 +1976,7 @@
 
       el('btnLimparFiltros').addEventListener('click', () => {
         el('busca').value='';
-        el('filtroStatus').value='todos';
+        el('filtroStatus').value='devedores';
         el('ordenacao').value='recentes';
         renderLista();
       });
@@ -2010,31 +2008,55 @@
 
       el('lista').addEventListener('click', async (e) => {
         const btn = e.target.closest('button[data-act]');
-
         if (!btn || btn.disabled) return;
 
         const id = btn.dataset.id;
         const act = btn.dataset.act;
+        const key = btn.dataset.key;
 
-        if (act === 'toggleCompras') {
-          const key = btn.dataset.key;
-          alternarComprasCliente(key, btn);
-        }
+        try {
+          if (act === 'toggleCliente') {
+            alternarCliente(key, btn);
+            return;
+          }
 
-        if (act === 'novaCompra') await novaCompraDoCliente(id);
-        if (act === 'editar') await editar(id);
-        if (act === 'receber') await abrirPagamento(id);
-        if (act === 'quitar') await quitar(id);
-        if (act === 'apagar') await excluir(id);
+          if (act === 'novaCompra') {
+            await novaCompraDoCliente(id);
+            return;
+          }
 
-        if (act === 'receberCliente') {
-          const key = btn.dataset.key;
-          await abrirPagamentoCliente(key);
-        }
+          if (act === 'editar') {
+            await editar(id);
+            return;
+          }
 
-        if (act === 'quitarCliente') {
-          const key = btn.dataset.key;
-          await quitarCliente(key);
+          if (act === 'receber') {
+            await abrirPagamento(id);
+            return;
+          }
+
+          if (act === 'quitar') {
+            await quitar(id);
+            return;
+          }
+
+          if (act === 'apagar') {
+            await excluir(id);
+            return;
+          }
+
+          if (act === 'receberCliente') {
+            await abrirPagamentoCliente(key);
+            return;
+          }
+
+          if (act === 'quitarCliente') {
+            await quitarCliente(key);
+            return;
+          }
+        } catch (err) {
+          console.error('Erro na ação:', act, err);
+          alert('Erro na ação: ' + (err && err.message ? err.message : err));
         }
       });
     }
@@ -2047,17 +2069,21 @@
 
         await abrirDB();
 
-        el('dbStatus').textContent = 'Banco local ativo';
+        el('dbStatus').textContent = 'Carregando...';
 
         atualizarTotalPreview();
 
         await recarregar();
+
+        minimizarCadastro();
+        minimizarBackup();
+
+        el('filtroStatus').value = 'devedores';
+        renderLista();
       } catch (err) {
         console.error(err);
-
-        el('dbStatus').textContent = 'Erro no banco local';
-
-        alert('Erro ao iniciar o banco local do celular: ' + (err && err.message ? err.message : err));
+        el('dbStatus').textContent = 'Erro';
+        alert('Erro ao iniciar: ' + (err && err.message ? err.message : err));
       }
     }
 
