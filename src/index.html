@@ -453,6 +453,15 @@
       padding-top:9px;
     }
 
+    .clienteCompras{
+      display:block;
+      margin-top:8px;
+    }
+
+    .clienteCompras.minimized{
+      display:none;
+    }
+
     .empty{
       padding:30px 14px;
       text-align:center;
@@ -658,7 +667,7 @@
                   <input id="valorUnitario" type="number" min="0" step="0.01" placeholder="0,00" />
                 </div>
                 <div>
-                  <label>Valor já pago (R$)</label>
+                  <label>Valor já recebido nesta venda (R$)</label>
                   <input id="valorPago" type="number" min="0" step="0.01" value="0" />
                 </div>
               </div>
@@ -669,11 +678,11 @@
                   <input id="vencimento" type="date" />
                 </div>
                 <div>
-                  <label>Status</label>
+                  <label>Situação desta compra</label>
                   <select id="status">
                     <option value="aberto">Em aberto</option>
-                    <option value="parcial">Pago parcial</option>
-                    <option value="pago">Pago</option>
+                    <option value="parcial">Com pagamento parcial</option>
+                    <option value="pago">Pago / quitado</option>
                   </select>
                 </div>
               </div>
@@ -732,26 +741,26 @@
       <section>
         <div class="stats">
           <div class="stat">
-            <span>Total em aberto</span>
+            <span>Saldo total pendente</span>
             <strong id="statAberto">R$ 0,00</strong>
           </div>
           <div class="stat">
-            <span>Pago parcial</span>
+            <span>Saldo de compras parciais</span>
             <strong id="statParcial">R$ 0,00</strong>
           </div>
           <div class="stat">
-            <span>Recebido</span>
+            <span>Total já recebido</span>
             <strong id="statPago">R$ 0,00</strong>
           </div>
           <div class="stat">
-            <span>Clientes/Registros</span>
+            <span>Clientes/Compras</span>
             <strong id="statQtd">0</strong>
           </div>
         </div>
 
         <div class="card">
           <div class="cardHead">
-            <h2>Lista de fiados</h2>
+            <h2>Lista de devedores</h2>
             <button class="btnGhost" id="btnRecarregar" type="button">Atualizar</button>
           </div>
 
@@ -761,8 +770,8 @@
               <select id="filtroStatus">
                 <option value="todos">Todos os status</option>
                 <option value="aberto">Em aberto</option>
-                <option value="parcial">Pago parcial</option>
-                <option value="pago">Pago</option>
+                <option value="parcial">Com pagamento parcial</option>
+                <option value="pago">Pago / quitado</option>
                 <option value="atrasado">Atrasados</option>
               </select>
               <select id="ordenacao">
@@ -784,7 +793,7 @@
 
   <dialog id="dialogPagamento">
     <div class="dialogHead">
-      <span>Registrar pagamento</span>
+      <span id="dialogPagamentoTitulo">Registrar recebimento</span>
       <button class="btnGhost" id="closePagamento" type="button">Fechar</button>
     </div>
     <div class="dialogBody">
@@ -792,13 +801,14 @@
       <p id="pagamentoResumo" class="muted"></p>
       <div class="row">
         <div>
-          <label>Valor recebido agora (R$)</label>
+          <label id="labelValorReceber">Valor recebido agora (R$)</label>
           <input id="valorReceber" type="number" min="0.01" step="0.01" placeholder="0,00" />
         </div>
       </div>
+      <p id="pagamentoAviso" class="muted"></p>
       <div class="btns">
-        <button class="btnGreen" id="btnConfirmarPagamento" type="button">Confirmar pagamento</button>
-        <button class="btnBlue" id="btnQuitarDialog" type="button">Quitar tudo</button>
+        <button class="btnGreen" id="btnConfirmarPagamento" type="button">Registrar recebimento</button>
+        <button class="btnBlue" id="btnQuitarDialog" type="button">Quitar saldo</button>
       </div>
     </div>
   </dialog>
@@ -829,7 +839,7 @@
     'use strict';
 
     const DB_NAME = 'thiaguinho_controle_fiados_db';
-    const DB_VERSION = 1;
+    const DB_VERSION = 2;
     const STORE = 'fiados';
 
     let db = null;
@@ -885,6 +895,20 @@
 
     function produtoExibicao(item){
       return item && item.produto ? item.produto : 'Produto não informado';
+    }
+
+    function textoStatusCompra(item){
+      if (estaAtrasado(item)) return 'Atrasada';
+      if (item.status === 'pago') return 'Quitada';
+      if (item.status === 'parcial') return 'Recebeu parte';
+      return 'Em aberto';
+    }
+
+    function classeStatusCompra(item){
+      if (estaAtrasado(item)) return 'late';
+      if (item.status === 'pago') return 'pago';
+      if (item.status === 'parcial') return 'parcial';
+      return 'aberto';
     }
 
     function agruparPorCliente(items){
@@ -947,13 +971,31 @@
 
         req.onupgradeneeded = (event) => {
           const database = event.target.result;
+          let store;
 
           if (!database.objectStoreNames.contains(STORE)) {
-            const store = database.createObjectStore(STORE, { keyPath:'id' });
+            store = database.createObjectStore(STORE, { keyPath:'id' });
+          } else {
+            store = event.target.transaction.objectStore(STORE);
+          }
+
+          if (!store.indexNames.contains('nome')) {
             store.createIndex('nome', 'nome', { unique:false });
+          }
+
+          if (!store.indexNames.contains('status')) {
             store.createIndex('status', 'status', { unique:false });
+          }
+
+          if (!store.indexNames.contains('dataVenda')) {
             store.createIndex('dataVenda', 'dataVenda', { unique:false });
+          }
+
+          if (!store.indexNames.contains('atualizadoEm')) {
             store.createIndex('atualizadoEm', 'atualizadoEm', { unique:false });
+          }
+
+          if (!store.indexNames.contains('clienteKey')) {
             store.createIndex('clienteKey', 'clienteKey', { unique:false });
           }
         };
@@ -1152,8 +1194,11 @@
       }
 
       if (filtroStatus !== 'todos') {
-        if (filtroStatus === 'atrasado') items = items.filter(estaAtrasado);
-        else items = items.filter(i => i.status === filtroStatus);
+        if (filtroStatus === 'atrasado') {
+          items = items.filter(estaAtrasado);
+        } else {
+          items = items.filter(i => i.status === filtroStatus);
+        }
       }
 
       let grupos = agruparPorCliente(items);
@@ -1189,35 +1234,42 @@
         const statusText = grupo.atrasado && !grupoPago
           ? 'Atrasado'
           : grupoPago
-            ? 'Pago'
+            ? 'Quitado'
             : grupo.pago > 0
-              ? 'Parcial'
-              : 'Aberto';
+              ? 'Recebeu parte'
+              : 'Em aberto';
 
-        const comprasHtml = grupo.compras
-          .sort((a,b) => String(b.dataVenda || b.criadoEm || '').localeCompare(String(a.dataVenda || a.criadoEm || '')))
+        const comprasOrdenadas = grupo.compras
+          .sort((a,b) => String(b.dataVenda || b.criadoEm || '').localeCompare(String(a.dataVenda || a.criadoEm || '')));
+
+        const comprasHtml = comprasOrdenadas
           .map(item => `
             <div class="compraBloco">
-              <div class="product">
-                <b>${escapeHtml(produtoExibicao(item))}</b> • Qtd ${formatQtd(item.quantidade)} • ${formatData(item.dataVenda)}
+              <div class="debtTop" style="margin-bottom:4px">
+                <div>
+                  <div class="product">
+                    <b>${escapeHtml(produtoExibicao(item))}</b> • Qtd ${formatQtd(item.quantidade)} • ${formatData(item.dataVenda)}
+                  </div>
+                </div>
+                <span class="badge ${classeStatusCompra(item)}">${textoStatusCompra(item)}</span>
               </div>
 
               <div class="moneyGrid">
-                <div>Total<strong>${moeda(item.valorTotal)}</strong></div>
-                <div>Pago<strong>${moeda(item.valorPago)}</strong></div>
-                <div>Saldo<strong>${moeda(item.saldo)}</strong></div>
+                <div>Total da compra<strong>${moeda(item.valorTotal)}</strong></div>
+                <div>Recebido<strong>${moeda(item.valorPago)}</strong></div>
+                <div>Falta receber<strong>${moeda(item.saldo)}</strong></div>
               </div>
 
               <div class="muted">
                 ${item.vencimento ? `Vencimento: <b>${formatData(item.vencimento)}</b> • ` : ''}
-                ${diasEmAberto(item)} dia(s)
+                ${diasEmAberto(item)} dia(s) desde a venda
                 ${item.observacoes ? `<br>Obs: ${escapeHtml(item.observacoes)}` : ''}
               </div>
 
               <div class="debtActions">
                 <button class="btnBlue" data-act="editar" data-id="${item.id}">Editar compra</button>
-                <button class="btnGreen" data-act="receber" data-id="${item.id}" ${item.status === 'pago' ? 'disabled' : ''}>Receber esta</button>
-                <button class="btnSoft" data-act="quitar" data-id="${item.id}" ${item.status === 'pago' ? 'disabled' : ''}>Quitar esta</button>
+                <button class="btnGreen" data-act="receber" data-id="${item.id}" ${item.status === 'pago' ? 'disabled' : ''}>Receber desta compra</button>
+                <button class="btnSoft" data-act="quitar" data-id="${item.id}" ${item.status === 'pago' ? 'disabled' : ''}>Quitar esta compra</button>
                 <button class="btnDanger" data-act="apagar" data-id="${item.id}">Excluir</button>
               </div>
             </div>
@@ -1238,22 +1290,40 @@
           </div>
 
           <div class="moneyGrid">
-            <div>Total geral<strong>${moeda(grupo.total)}</strong></div>
-            <div>Pago geral<strong>${moeda(grupo.pago)}</strong></div>
-            <div>Saldo geral<strong>${moeda(grupo.saldo)}</strong></div>
+            <div>Total comprado<strong>${moeda(grupo.total)}</strong></div>
+            <div>Total recebido<strong>${moeda(grupo.pago)}</strong></div>
+            <div>Dívida atual<strong>${moeda(grupo.saldo)}</strong></div>
           </div>
 
           <div class="debtActions">
+            <button class="btnSoft" data-act="toggleCompras" data-key="${escapeHtml(grupo.key)}">Ver compras</button>
             <button class="btnGreen" data-act="novaCompra" data-id="${grupo.principal.id}">Nova compra</button>
-            <button class="btnBlue" data-act="receberCliente" data-key="${grupo.key}" ${grupoPago ? 'disabled' : ''}>Receber do cliente</button>
-            <button class="btnSoft" data-act="quitarCliente" data-key="${grupo.key}" ${grupoPago ? 'disabled' : ''}>Quitar cliente</button>
+            <button class="btnBlue" data-act="receberCliente" data-key="${escapeHtml(grupo.key)}" ${grupoPago ? 'disabled' : ''}>Receber do cliente</button>
+            <button class="btnSoft" data-act="quitarCliente" data-key="${escapeHtml(grupo.key)}" ${grupoPago ? 'disabled' : ''}>Quitar cliente</button>
           </div>
 
-          ${comprasHtml}
+          <div class="clienteCompras minimized" data-compras-key="${escapeHtml(grupo.key)}">
+            ${comprasHtml}
+          </div>
         `;
 
         box.appendChild(div);
       });
+    }
+
+    function alternarComprasCliente(clienteKey, botao){
+      const bloco = document.querySelector(`[data-compras-key="${CSS.escape(clienteKey)}"]`);
+      if (!bloco) return;
+
+      const minimizado = bloco.classList.contains('minimized');
+
+      if (minimizado) {
+        bloco.classList.remove('minimized');
+        botao.textContent = 'Minimizar';
+      } else {
+        bloco.classList.add('minimized');
+        botao.textContent = 'Ver compras';
+      }
     }
 
     function escapeHtml(s){
@@ -1413,14 +1483,20 @@
       const nomeExibicao = nomeClienteExibicao(item);
       const produtoNome = produtoExibicao(item);
 
+      el('dialogPagamentoTitulo').textContent = 'Receber desta compra';
+      el('labelValorReceber').textContent = 'Valor recebido para esta compra (R$)';
       el('pagamentoId').value = id;
       el('valorReceber').value = '';
+
       el('pagamentoResumo').innerHTML = `
         <b>${escapeHtml(nomeExibicao)}</b><br>
-        ${escapeHtml(produtoNome)}<br>
-        Saldo desta compra: <b>${moeda(item.saldo)}</b>
+        Compra: <b>${escapeHtml(produtoNome)}</b><br>
+        Total da compra: <b>${moeda(item.valorTotal)}</b><br>
+        Já recebido nesta compra: <b>${moeda(item.valorPago)}</b><br>
+        Falta receber nesta compra: <b>${moeda(item.saldo)}</b>
       `;
 
+      el('pagamentoAviso').textContent = 'Este recebimento será abatido somente desta compra específica.';
       el('dialogPagamento').showModal();
     }
 
@@ -1430,16 +1506,24 @@
       if (!compras.length) return toast('Cliente sem saldo pendente.');
 
       const totalSaldo = compras.reduce((s,i)=>s + parseNum(i.saldo),0);
+      const totalComprado = compras.reduce((s,i)=>s + parseNum(i.valorTotal),0);
+      const totalRecebido = compras.reduce((s,i)=>s + parseNum(i.valorPago),0);
       const principal = compras[0];
 
+      el('dialogPagamentoTitulo').textContent = 'Receber do cliente';
+      el('labelValorReceber').textContent = 'Valor recebido do cliente agora (R$)';
       el('pagamentoId').value = 'cliente::' + clienteKey;
       el('valorReceber').value = '';
+
       el('pagamentoResumo').innerHTML = `
         <b>${escapeHtml(nomeClienteExibicao(principal))}</b><br>
-        ${compras.length} compra(s) em aberto<br>
-        Saldo total do cliente: <b>${moeda(totalSaldo)}</b>
+        Compras pendentes: <b>${compras.length}</b><br>
+        Total comprado pendente: <b>${moeda(totalComprado)}</b><br>
+        Já recebido nessas compras: <b>${moeda(totalRecebido)}</b><br>
+        Dívida atual do cliente: <b>${moeda(totalSaldo)}</b>
       `;
 
+      el('pagamentoAviso').textContent = 'Este recebimento será abatido automaticamente das compras mais antigas para as mais novas.';
       el('dialogPagamento').showModal();
     }
 
@@ -1865,6 +1949,7 @@
       const info = {
         app: 'Controle de Fiados',
         banco: DB_NAME,
+        versaoBanco: DB_VERSION,
         store: STORE,
         registros: fiadosCache.length,
         clientes: grupos.length,
@@ -1930,6 +2015,11 @@
 
         const id = btn.dataset.id;
         const act = btn.dataset.act;
+
+        if (act === 'toggleCompras') {
+          const key = btn.dataset.key;
+          alternarComprasCliente(key, btn);
+        }
 
         if (act === 'novaCompra') await novaCompraDoCliente(id);
         if (act === 'editar') await editar(id);
