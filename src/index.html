@@ -427,6 +427,30 @@
       padding:10px;
     }
 
+    .timeline{
+      border-top:1px dashed #d1d5db;
+      margin-top:10px;
+      padding-top:8px;
+    }
+
+    .timelineTitle{
+      font-size:12px;
+      font-weight:900;
+      color:#374151;
+      margin-bottom:6px;
+    }
+
+    .timelineItem{
+      font-size:12px;
+      color:#374151;
+      background:#f9fafb;
+      border:1px solid #eef2f7;
+      border-radius:10px;
+      padding:7px 8px;
+      margin-top:5px;
+      line-height:1.35;
+    }
+
     .empty{
       padding:30px 14px;
       text-align:center;
@@ -852,6 +876,21 @@
       return d && m && a ? `${d}/${m}/${a}` : s;
     }
 
+    function formatDataHora(s){
+      if (!s) return '-';
+
+      const d = new Date(s);
+      if (Number.isNaN(d.getTime())) return '-';
+
+      return d.toLocaleString('pt-BR', {
+        day:'2-digit',
+        month:'2-digit',
+        year:'numeric',
+        hour:'2-digit',
+        minute:'2-digit'
+      });
+    }
+
     function formatQtd(v){
       const n = parseNum(v);
       return Number.isInteger(n) ? String(n) : n.toLocaleString('pt-BR');
@@ -1012,6 +1051,60 @@
       const d1 = new Date(base + 'T00:00:00');
       const d2 = new Date(hojeISO() + 'T00:00:00');
       return Math.max(0, Math.ceil((d2 - d1) / (1000*60*60*24)));
+    }
+
+    function normalizarHistorico(item){
+      if (!Array.isArray(item.historicoRecebimentos)) item.historicoRecebimentos = [];
+      return item.historicoRecebimentos;
+    }
+
+    function ultimoRecebimento(item){
+      const historico = normalizarHistorico(item);
+      if (!historico.length) return null;
+
+      return [...historico].sort((a,b) => String(b.dataHora || '').localeCompare(String(a.dataHora || '')))[0] || null;
+    }
+
+    function registrarMovimentoRecebimento(item, valor, tipo){
+      const valorRecebido = parseNum(valor);
+      if (valorRecebido <= 0) return item;
+
+      const saldoAntes = parseNum(item.saldo);
+      const dataHora = agoraISO();
+      const saldoDepois = +(Math.max(0, saldoAntes - valorRecebido)).toFixed(2);
+
+      normalizarHistorico(item).push({
+        id: uid(),
+        tipo: tipo || 'recebimento',
+        valor: valorRecebido,
+        dataHora,
+        saldoAntes,
+        saldoDepois
+      });
+
+      item.ultimoRecebimentoEm = dataHora;
+      item.valorPago = +(parseNum(item.valorPago) + valorRecebido).toFixed(2);
+
+      if (item.valorPago > parseNum(item.valorTotal)) {
+        item.valorPago = parseNum(item.valorTotal);
+      }
+
+      item.saldo = +(parseNum(item.valorTotal) - parseNum(item.valorPago)).toFixed(2);
+
+      if (item.saldo <= 0 && parseNum(item.valorTotal) > 0) {
+        item.saldo = 0;
+        item.status = 'pago';
+        item.quitadoEm = item.quitadoEm || dataHora;
+      } else if (item.valorPago > 0) {
+        item.status = 'parcial';
+        item.quitadoEm = '';
+      } else {
+        item.status = 'aberto';
+        item.quitadoEm = '';
+      }
+
+      item.atualizadoEm = dataHora;
+      return item;
     }
 
     function agruparPorCliente(items){
@@ -1214,6 +1307,52 @@
           });
         }
 
+        const agora = agoraISO();
+
+        let historicoRecebimentos = existente && Array.isArray(existente.historicoRecebimentos)
+          ? existente.historicoRecebimentos
+          : [];
+
+        let quitadoEm = existente && existente.quitadoEm ? existente.quitadoEm : '';
+        let ultimoRecebimentoEm = existente && existente.ultimoRecebimentoEm ? existente.ultimoRecebimentoEm : '';
+
+        if (!existente && c.valorPago > 0) {
+          historicoRecebimentos.push({
+            id: uid(),
+            tipo: c.saldo <= 0 ? 'recebimento_inicial_quitacao' : 'recebimento_inicial_parcial',
+            valor: c.valorPago,
+            dataHora: agora,
+            saldoAntes: c.valorTotal,
+            saldoDepois: c.saldo
+          });
+
+          ultimoRecebimentoEm = agora;
+        }
+
+        if (existente) {
+          const valorPagoAnterior = parseNum(existente.valorPago);
+          const diferenca = +(c.valorPago - valorPagoAnterior).toFixed(2);
+
+          if (diferenca !== 0) {
+            historicoRecebimentos.push({
+              id: uid(),
+              tipo: 'ajuste_manual_edicao',
+              valor: diferenca,
+              dataHora: agora,
+              saldoAntes: parseNum(existente.saldo),
+              saldoDepois: c.saldo
+            });
+
+            ultimoRecebimentoEm = agora;
+          }
+        }
+
+        if (c.saldo <= 0 && c.valorTotal > 0) {
+          quitadoEm = quitadoEm || agora;
+        } else {
+          quitadoEm = '';
+        }
+
         const item = {
           id,
           nome: nomeInformado,
@@ -1230,8 +1369,11 @@
           vencimento: el('vencimento').value,
           observacoes: el('observacoes').value.trim(),
           clienteOrigemId: el('clienteOrigemId').value || (existente && existente.clienteOrigemId ? existente.clienteOrigemId : ''),
-          criadoEm: existente && existente.criadoEm ? existente.criadoEm : agoraISO(),
-          atualizadoEm: agoraISO()
+          criadoEm: existente && existente.criadoEm ? existente.criadoEm : agora,
+          atualizadoEm: agora,
+          quitadoEm,
+          ultimoRecebimentoEm,
+          historicoRecebimentos
         };
 
         await salvarRegistro(item);
@@ -1261,6 +1403,38 @@
       el('statParcial').textContent = moeda(parcialSaldo);
       el('statPago').textContent = moeda(recebido);
       el('statQtd').textContent = `${grupos.length}/${items.length}`;
+    }
+
+    function renderHistorico(item){
+      const historico = normalizarHistorico(item);
+
+      if (!historico.length) {
+        return `<div class="timeline"><div class="timelineTitle">Histórico financeiro</div><div class="timelineItem">Nenhum recebimento registrado ainda.</div></div>`;
+      }
+
+      const itens = [...historico]
+        .sort((a,b) => String(b.dataHora || '').localeCompare(String(a.dataHora || '')))
+        .map(h => {
+          const tipo = h.tipo === 'quitacao_cliente' ? 'Quitação do cliente'
+            : h.tipo === 'quitacao_venda' ? 'Quitação da venda'
+            : h.tipo === 'recebimento_cliente' ? 'Recebimento do cliente'
+            : h.tipo === 'recebimento_venda' ? 'Recebimento desta venda'
+            : h.tipo === 'recebimento_inicial_quitacao' ? 'Recebimento inicial com quitação'
+            : h.tipo === 'recebimento_inicial_parcial' ? 'Recebimento inicial parcial'
+            : h.tipo === 'ajuste_manual_edicao' ? 'Ajuste manual na edição'
+            : 'Recebimento';
+
+          return `
+            <div class="timelineItem">
+              <b>${escapeHtml(tipo)}</b><br>
+              Valor: <b>${moeda(h.valor)}</b><br>
+              Data/hora: <b>${formatDataHora(h.dataHora)}</b><br>
+              Saldo antes: ${moeda(h.saldoAntes)} • Saldo depois: ${moeda(h.saldoDepois)}
+            </div>
+          `;
+        }).join('');
+
+      return `<div class="timeline"><div class="timelineTitle">Histórico financeiro</div>${itens}</div>`;
     }
 
     function renderLista(){
@@ -1329,37 +1503,47 @@
         const comprasOrdenadas = [...grupo.compras]
           .sort((a,b) => String(b.dataVenda || b.criadoEm || '').localeCompare(String(a.dataVenda || a.criadoEm || '')));
 
-        const comprasHtml = comprasOrdenadas.map(item => `
-          <div class="compraBloco">
-            <div class="debtTop" style="margin-bottom:4px">
-              <div>
-                <div class="product">
-                  <b>${escapeHtml(produtoExibicao(item))}</b> • Qtd ${formatQtd(item.quantidade)} • ${formatData(item.dataVenda)}
+        const comprasHtml = comprasOrdenadas.map(item => {
+          const ultimo = ultimoRecebimento(item);
+
+          return `
+            <div class="compraBloco">
+              <div class="debtTop" style="margin-bottom:4px">
+                <div>
+                  <div class="product">
+                    <b>${escapeHtml(produtoExibicao(item))}</b> • Qtd ${formatQtd(item.quantidade)} • Venda: ${formatData(item.dataVenda)}
+                  </div>
                 </div>
+                <span class="badge ${classeStatusCompra(item)}">${textoStatusCompra(item)}</span>
               </div>
-              <span class="badge ${classeStatusCompra(item)}">${textoStatusCompra(item)}</span>
-            </div>
 
-            <div class="moneyGrid">
-              <div>Total<strong>${moeda(item.valorTotal)}</strong></div>
-              <div>Recebido<strong>${moeda(item.valorPago)}</strong></div>
-              <div>Falta<strong>${moeda(item.saldo)}</strong></div>
-            </div>
+              <div class="moneyGrid">
+                <div>Total<strong>${moeda(item.valorTotal)}</strong></div>
+                <div>Recebido<strong>${moeda(item.valorPago)}</strong></div>
+                <div>Falta<strong>${moeda(item.saldo)}</strong></div>
+              </div>
 
-            <div class="muted">
-              ${item.vencimento ? `Vencimento: <b>${formatData(item.vencimento)}</b> • ` : ''}
-              ${diasEmAberto(item)} dia(s)
-              ${item.observacoes ? `<br>Obs: ${escapeHtml(item.observacoes)}` : ''}
-            </div>
+              <div class="muted">
+                Criado em: <b>${formatDataHora(item.criadoEm)}</b><br>
+                Última atualização: <b>${formatDataHora(item.atualizadoEm)}</b><br>
+                ${ultimo ? `Último recebimento: <b>${formatDataHora(ultimo.dataHora)}</b> • ${moeda(ultimo.valor)}<br>` : ''}
+                ${item.quitadoEm ? `Quitado em: <b>${formatDataHora(item.quitadoEm)}</b><br>` : ''}
+                ${item.vencimento ? `Vencimento: <b>${formatData(item.vencimento)}</b><br>` : ''}
+                ${diasEmAberto(item)} dia(s) desde a venda
+                ${item.observacoes ? `<br>Obs: ${escapeHtml(item.observacoes)}` : ''}
+              </div>
 
-            <div class="debtActions">
-              <button class="btnBlue" data-act="editar" data-id="${escapeHtml(item.id)}">Editar venda</button>
-              <button class="btnGreen" data-act="receber" data-id="${escapeHtml(item.id)}" ${item.status === 'pago' ? 'disabled' : ''}>Receber desta</button>
-              <button class="btnSoft" data-act="quitar" data-id="${escapeHtml(item.id)}" ${item.status === 'pago' ? 'disabled' : ''}>Quitar esta</button>
-              <button class="btnDanger" data-act="apagar" data-id="${escapeHtml(item.id)}">Excluir</button>
+              ${renderHistorico(item)}
+
+              <div class="debtActions">
+                <button class="btnBlue" data-act="editar" data-id="${escapeHtml(item.id)}">Editar venda</button>
+                <button class="btnGreen" data-act="receber" data-id="${escapeHtml(item.id)}" ${item.status === 'pago' ? 'disabled' : ''}>Receber desta</button>
+                <button class="btnSoft" data-act="quitar" data-id="${escapeHtml(item.id)}" ${item.status === 'pago' ? 'disabled' : ''}>Quitar esta</button>
+                <button class="btnDanger" data-act="apagar" data-id="${escapeHtml(item.id)}">Excluir</button>
+              </div>
             </div>
-          </div>
-        `).join('');
+          `;
+        }).join('');
 
         const div = document.createElement('article');
         div.className = 'debt';
@@ -1379,6 +1563,10 @@
             <div>Total vendido<strong>${moeda(grupo.total)}</strong></div>
             <div>Recebido<strong>${moeda(grupo.pago)}</strong></div>
             <div>Pendente<strong>${moeda(grupo.saldo)}</strong></div>
+          </div>
+
+          <div class="muted">
+            Última movimentação do cliente: <b>${formatDataHora(grupo.ultimaData)}</b>
           </div>
 
           <div class="debtActions">
@@ -1435,9 +1623,28 @@
         item.valorPago = parseNum(item.valorPago);
         item.saldo = parseNum(item.saldo);
 
+        if (!Array.isArray(item.historicoRecebimentos)) {
+          item.historicoRecebimentos = [];
+          precisaMigrar = true;
+        }
+
         if (!item.dataVenda) item.dataVenda = hojeISO();
         if (!item.criadoEm) item.criadoEm = agoraISO();
         if (!item.atualizadoEm) item.atualizadoEm = agoraISO();
+
+        if (item.saldo <= 0 && item.valorTotal > 0) {
+          item.status = 'pago';
+          if (!item.quitadoEm) {
+            item.quitadoEm = item.atualizadoEm || agoraISO();
+            precisaMigrar = true;
+          }
+        } else if (item.valorPago > 0) {
+          item.status = 'parcial';
+          item.quitadoEm = '';
+        } else {
+          item.status = 'aberto';
+          item.quitadoEm = '';
+        }
 
         if (!['aberto','parcial','pago'].includes(item.status)) {
           item.status = item.saldo <= 0 && item.valorTotal > 0 ? 'pago' : item.valorPago > 0 ? 'parcial' : 'aberto';
@@ -1494,11 +1701,8 @@
       const item = await buscarPorId(id);
       if (!item) return;
 
-      item.valorPago = parseNum(item.valorTotal);
-      item.saldo = 0;
-      item.status = 'pago';
-      item.clienteKey = clienteKeyDe(item);
-      item.atualizadoEm = agoraISO();
+      const saldoAtual = parseNum(item.saldo);
+      registrarMovimentoRecebimento(item, saldoAtual, 'quitacao_venda');
 
       await salvarRegistro(item);
       await recarregar();
@@ -1523,7 +1727,7 @@
         Pendente: <b>${moeda(item.saldo)}</b>
       `;
 
-      el('pagamentoAviso').textContent = 'Este recebimento será abatido somente desta venda.';
+      el('pagamentoAviso').textContent = 'Este recebimento será abatido somente desta venda e ficará salvo no histórico.';
       el('dialogPagamento').showModal();
     }
 
@@ -1550,7 +1754,7 @@
         Saldo pendente: <b>${moeda(totalSaldo)}</b>
       `;
 
-      el('pagamentoAviso').textContent = 'O valor será abatido das vendas mais antigas para as mais novas.';
+      el('pagamentoAviso').textContent = 'O valor será abatido das vendas mais antigas para as mais novas e ficará salvo no histórico.';
       el('dialogPagamento').showModal();
     }
 
@@ -1571,11 +1775,7 @@
         const saldoAtual = parseNum(item.saldo);
         const abatimento = Math.min(saldoAtual, restante);
 
-        item.valorPago = +(parseNum(item.valorPago) + abatimento).toFixed(2);
-        item.saldo = +(parseNum(item.valorTotal) - parseNum(item.valorPago)).toFixed(2);
-        item.status = item.saldo <= 0 ? 'pago' : 'parcial';
-        item.clienteKey = clienteKeyDe(item);
-        item.atualizadoEm = agoraISO();
+        registrarMovimentoRecebimento(item, abatimento, abatimento >= saldoAtual ? 'quitacao_cliente' : 'recebimento_cliente');
 
         restante = +(restante - abatimento).toFixed(2);
 
@@ -1607,11 +1807,7 @@
 
       if (recebidoAgora <= 0) return toast('Informe um valor recebido.');
 
-      item.valorPago = Math.min(parseNum(item.valorTotal), parseNum(item.valorPago) + recebidoAgora);
-      item.saldo = +(parseNum(item.valorTotal) - parseNum(item.valorPago)).toFixed(2);
-      item.status = item.saldo <= 0 ? 'pago' : 'parcial';
-      item.clienteKey = clienteKeyDe(item);
-      item.atualizadoEm = agoraISO();
+      registrarMovimentoRecebimento(item, recebidoAgora, quitarTudo ? 'quitacao_venda' : 'recebimento_venda');
 
       await salvarRegistro(item);
 
@@ -1635,12 +1831,8 @@
       if (!confirm(`Quitar todas as pendências de ${nome}?\n\nSaldo pendente: ${moeda(saldoTotal)}\nVendas pendentes: ${compras.length}`)) return;
 
       for (const item of compras) {
-        item.valorPago = parseNum(item.valorTotal);
-        item.saldo = 0;
-        item.status = 'pago';
-        item.clienteKey = clienteKeyDe(item);
-        item.atualizadoEm = agoraISO();
-
+        const saldoAtual = parseNum(item.saldo);
+        registrarMovimentoRecebimento(item, saldoAtual, 'quitacao_cliente');
         await salvarRegistro(item);
       }
 
@@ -1664,7 +1856,7 @@
     function backupObjeto(){
       return {
         app: 'Controle de Vendas - thIAguinho Soluções',
-        formato: 'thiaguinho-controle-vendas-json-v1',
+        formato: 'thiaguinho-controle-vendas-json-v2',
         geradoEm: agoraISO(),
         totalRegistros: fiadosCache.length,
         totalClientes: agruparPorCliente(fiadosCache).length,
@@ -1721,13 +1913,19 @@
         'observacoes',
         'clienteOrigemId',
         'criadoEm',
-        'atualizadoEm'
+        'atualizadoEm',
+        'quitadoEm',
+        'ultimoRecebimentoEm',
+        'historicoRecebimentos'
       ];
 
       const rows = [headers.join(';')];
 
       fiadosCache.forEach(item => {
-        rows.push(headers.map(h => csvEscape(item[h])).join(';'));
+        rows.push(headers.map(h => {
+          if (h === 'historicoRecebimentos') return csvEscape(JSON.stringify(item[h] || []));
+          return csvEscape(item[h]);
+        }).join(';'));
       });
 
       return rows.join('\n');
@@ -1940,6 +2138,19 @@
 
       status = ['aberto','parcial','pago'].includes(status) ? status : 'aberto';
 
+      let historicoRecebimentos = [];
+
+      if (Array.isArray(raw.historicoRecebimentos)) {
+        historicoRecebimentos = raw.historicoRecebimentos;
+      } else if (typeof raw.historicoRecebimentos === 'string' && raw.historicoRecebimentos.trim()) {
+        try {
+          const parsed = JSON.parse(raw.historicoRecebimentos);
+          historicoRecebimentos = Array.isArray(parsed) ? parsed : [];
+        } catch (_) {
+          historicoRecebimentos = [];
+        }
+      }
+
       const baseCliente = {
         id:idFinal,
         nome:nomeFinal,
@@ -1964,7 +2175,10 @@
         observacoes: String(raw.observacoes || raw.obs || '').trim(),
         clienteOrigemId: raw.clienteOrigemId || raw.cliente_origem_id || '',
         criadoEm: raw.criadoEm || raw.createdAt || agoraISO(),
-        atualizadoEm: agoraISO()
+        atualizadoEm: raw.atualizadoEm || agoraISO(),
+        quitadoEm: raw.quitadoEm || '',
+        ultimoRecebimentoEm: raw.ultimoRecebimentoEm || '',
+        historicoRecebimentos
       };
     }
 
@@ -1979,7 +2193,16 @@
         store: STORE,
         vendas: fiadosCache.length,
         clientes: grupos.length,
-        devedores: devedores.length
+        devedores: devedores.length,
+        recursos: [
+          'histórico de recebimentos',
+          'data e hora de quitação',
+          'recebimento parcial',
+          'quitação por venda',
+          'quitação por cliente',
+          'backup JSON',
+          'exportação CSV'
+        ]
       };
 
       el('dbInfo').textContent = JSON.stringify(info, null, 2);
