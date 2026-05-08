@@ -1,0 +1,2784 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#111827" />
+  <link rel="manifest" href="./manifest.webmanifest" />
+  <title>Controle de Vendas - thIAguinho Soluções</title>
+
+  <style>
+    :root{
+      --bg:#f3f4f6;
+      --card:#ffffff;
+      --text:#111827;
+      --muted:#6b7280;
+      --line:#e5e7eb;
+      --brand:#111827;
+      --brand2:#2563eb;
+      --danger:#dc2626;
+      --ok:#16a34a;
+      --warn:#d97706;
+      --soft:#f9fafb;
+      --shadow:0 10px 25px rgba(15,23,42,.08);
+      --radius:18px;
+    }
+
+    *{box-sizing:border-box}
+
+    html,body{
+      margin:0;
+      padding:0;
+      background:var(--bg);
+      color:var(--text);
+      font-family:Arial,Helvetica,sans-serif;
+      min-height:100%;
+    }
+
+    body{padding-bottom:88px;}
+
+    header{
+      background:linear-gradient(135deg,#111827,#1f2937 60%,#2563eb);
+      color:white;
+      padding:18px 14px 20px;
+      position:sticky;
+      top:0;
+      z-index:10;
+      box-shadow:0 8px 18px rgba(0,0,0,.18);
+    }
+
+    .wrap{
+      width:100%;
+      max-width:1180px;
+      margin:0 auto;
+    }
+
+    .topline{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+    }
+
+    .brand h1{
+      font-size:20px;
+      margin:0;
+      font-weight:900;
+      letter-spacing:-.3px;
+    }
+
+    .brand p{
+      font-size:12px;
+      margin:4px 0 0;
+      color:#d1d5db;
+    }
+
+    .topActions{
+      display:flex;
+      gap:8px;
+      align-items:center;
+      flex-wrap:wrap;
+      justify-content:flex-end;
+    }
+
+    .pill{
+      font-size:11px;
+      border:1px solid rgba(255,255,255,.28);
+      background:rgba(255,255,255,.12);
+      padding:6px 8px;
+      border-radius:999px;
+      white-space:nowrap;
+      cursor:pointer;
+    }
+
+    .topBack{
+      font-size:11px;
+      border:1px solid rgba(255,255,255,.28);
+      background:rgba(255,255,255,.14);
+      color:#fff;
+      padding:7px 10px;
+      border-radius:999px;
+      font-weight:900;
+    }
+
+    main{padding:14px;}
+
+    .grid{
+      display:grid;
+      grid-template-columns:1fr;
+      gap:14px;
+    }
+
+    @media(min-width:940px){
+      .grid{
+        grid-template-columns:410px 1fr;
+        align-items:start;
+      }
+
+      .stickySide{
+        position:sticky;
+        top:96px;
+      }
+    }
+
+    .card{
+      background:var(--card);
+      border:1px solid var(--line);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+      overflow:hidden;
+    }
+
+    .cardHead{
+      padding:14px 14px;
+      border-bottom:1px solid var(--line);
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:10px;
+      background:linear-gradient(180deg,#fff,#fbfbfc);
+    }
+
+    .cardHead h2{
+      font-size:16px;
+      margin:0;
+      font-weight:900;
+    }
+
+    .headActions{
+      display:flex;
+      align-items:center;
+      justify-content:flex-end;
+      gap:7px;
+      flex-wrap:wrap;
+    }
+
+    .cardBody{padding:14px;}
+
+    .cardBody.minimized{
+      display:none;
+    }
+
+    label{
+      display:block;
+      font-size:12px;
+      font-weight:800;
+      color:#374151;
+      margin:0 0 5px;
+    }
+
+    input,select,textarea{
+      width:100%;
+      border:1px solid #d1d5db;
+      border-radius:12px;
+      padding:12px 11px;
+      font-size:15px;
+      background:white;
+      color:var(--text);
+      outline:none;
+    }
+
+    input:focus,select:focus,textarea:focus{
+      border-color:#2563eb;
+      box-shadow:0 0 0 3px rgba(37,99,235,.12);
+    }
+
+    textarea{
+      min-height:70px;
+      resize:vertical;
+    }
+
+    .row{
+      display:grid;
+      grid-template-columns:1fr;
+      gap:10px;
+      margin-bottom:10px;
+    }
+
+    .row2{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:10px;
+      margin-bottom:10px;
+    }
+
+    .row3{
+      display:grid;
+      grid-template-columns:1fr 1fr 1fr;
+      gap:10px;
+      margin-bottom:10px;
+    }
+
+    @media(max-width:480px){
+      .row2,.row3{
+        grid-template-columns:1fr;
+      }
+    }
+
+    .btns{
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+      align-items:center;
+    }
+
+    button{
+      border:0;
+      border-radius:13px;
+      padding:11px 13px;
+      font-weight:900;
+      cursor:pointer;
+      box-shadow:none;
+      transition:.15s;
+      touch-action:manipulation;
+    }
+
+    button:active{
+      transform:scale(.98);
+    }
+
+    button:disabled{
+      opacity:.5;
+      cursor:not-allowed;
+      transform:none;
+    }
+
+    .btnPrimary{background:var(--brand);color:#fff;}
+    .btnBlue{background:var(--brand2);color:#fff;}
+    .btnGreen{background:var(--ok);color:#fff;}
+    .btnWarn{background:var(--warn);color:#fff;}
+    .btnDanger{background:var(--danger);color:#fff;}
+
+    .btnSoft{
+      background:#eef2ff;
+      color:#1f2937;
+      border:1px solid #dbe2ff;
+    }
+
+    .btnGhost{
+      background:#f3f4f6;
+      color:#1f2937;
+      border:1px solid #e5e7eb;
+    }
+
+    .btnBack{
+      background:#f8fafc;
+      color:#374151;
+      border:1px solid #e5e7eb;
+    }
+
+    .btnFull{width:100%;}
+
+    .muted{
+      color:var(--muted);
+      font-size:12px;
+      line-height:1.35;
+    }
+
+    .totalBox{
+      border:1px dashed #cbd5e1;
+      background:#f8fafc;
+      padding:12px;
+      border-radius:14px;
+      margin:8px 0 12px;
+      display:flex;
+      justify-content:space-between;
+      gap:10px;
+      align-items:center;
+    }
+
+    .totalBox strong{font-size:18px;}
+
+    .stats{
+      display:grid;
+      grid-template-columns:repeat(2,1fr);
+      gap:10px;
+      margin-bottom:14px;
+    }
+
+    @media(min-width:760px){
+      .stats{
+        grid-template-columns:repeat(4,1fr);
+      }
+    }
+
+    .stat{
+      background:white;
+      border:1px solid var(--line);
+      border-radius:16px;
+      padding:12px;
+      box-shadow:0 6px 18px rgba(15,23,42,.04);
+    }
+
+    .stat span{
+      display:block;
+      font-size:11px;
+      color:var(--muted);
+      font-weight:800;
+      text-transform:uppercase;
+    }
+
+    .stat strong{
+      display:block;
+      font-size:18px;
+      margin-top:5px;
+    }
+
+    .filters{
+      display:grid;
+      grid-template-columns:1fr;
+      gap:9px;
+      margin-bottom:13px;
+    }
+
+    @media(min-width:760px){
+      .filters{
+        grid-template-columns:1.3fr .8fr .8fr auto;
+      }
+    }
+
+    .list{
+      display:grid;
+      gap:12px;
+    }
+
+    .debt{
+      border:1px solid var(--line);
+      background:white;
+      border-radius:20px;
+      padding:13px;
+      box-shadow:0 6px 18px rgba(15,23,42,.06);
+      position:relative;
+      overflow:hidden;
+    }
+
+    .debt::before{
+      content:"";
+      position:absolute;
+      left:0;
+      top:0;
+      bottom:0;
+      width:7px;
+      background:#cbd5e1;
+    }
+
+    .debt.debtAberto::before{background:#d97706;}
+    .debt.debtParcial::before{background:#2563eb;}
+    .debt.debtPago::before{background:#16a34a;}
+    .debt.debtAtrasado::before{background:#dc2626;}
+
+    .debt.debtAberto{
+      background:linear-gradient(90deg,#fff7ed 0,#ffffff 18%);
+    }
+
+    .debt.debtParcial{
+      background:linear-gradient(90deg,#eff6ff 0,#ffffff 18%);
+    }
+
+    .debt.debtPago{
+      background:linear-gradient(90deg,#f0fdf4 0,#ffffff 18%);
+    }
+
+    .debt.debtAtrasado{
+      background:linear-gradient(90deg,#fef2f2 0,#ffffff 18%);
+    }
+
+    .clienteCabecalho{
+      display:grid;
+      grid-template-columns:44px 1fr auto;
+      gap:10px;
+      align-items:start;
+      margin-bottom:8px;
+      padding-left:3px;
+    }
+
+    .avatarCliente{
+      width:44px;
+      height:44px;
+      border-radius:16px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      background:#111827;
+      color:#fff;
+      font-weight:900;
+      font-size:17px;
+      box-shadow:0 6px 14px rgba(15,23,42,.16);
+    }
+
+    .avatarAberto{background:#d97706;}
+    .avatarParcial{background:#2563eb;}
+    .avatarPago{background:#16a34a;}
+    .avatarAtrasado{background:#dc2626;}
+
+    .debtTop{
+      display:flex;
+      justify-content:space-between;
+      gap:12px;
+      align-items:flex-start;
+      margin-bottom:8px;
+    }
+
+    .client{
+      font-size:17px;
+      font-weight:900;
+      line-height:1.15;
+      letter-spacing:-.2px;
+    }
+
+    .product{
+      font-size:13px;
+      color:#374151;
+      margin-top:3px;
+      line-height:1.3;
+    }
+
+    .badge{
+      font-size:11px;
+      font-weight:900;
+      padding:5px 8px;
+      border-radius:999px;
+      white-space:nowrap;
+      border:1px solid transparent;
+    }
+
+    .aberto{background:#fef3c7;color:#92400e;border-color:#fde68a}
+    .parcial{background:#dbeafe;color:#1e40af;border-color:#bfdbfe}
+    .pago{background:#dcfce7;color:#166534;border-color:#bbf7d0}
+
+    .late{
+      background:#fee2e2;
+      color:#991b1b;
+      border-color:#fecaca;
+      animation:pulse 1.4s infinite;
+    }
+
+    @keyframes pulse{
+      0%,100%{opacity:1}
+      50%{opacity:.65}
+    }
+
+    .moneyGrid{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:8px;
+      background:#f9fafb;
+      border:1px solid #eef2f7;
+      border-radius:13px;
+      padding:9px;
+      margin:8px 0;
+    }
+
+    .moneyGrid div{
+      font-size:11px;
+      color:#6b7280;
+    }
+
+    .moneyGrid strong{
+      display:block;
+      font-size:14px;
+      color:#111827;
+      margin-top:2px;
+    }
+
+    .clienteMiniLinha{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:7px;
+      margin-top:8px;
+    }
+
+    .miniInfo{
+      background:rgba(255,255,255,.72);
+      border:1px solid #eef2f7;
+      border-radius:12px;
+      padding:8px;
+      font-size:11px;
+      color:#6b7280;
+    }
+
+    .miniInfo b{
+      display:block;
+      color:#111827;
+      margin-top:2px;
+      font-size:13px;
+    }
+
+    @media(max-width:560px){
+      .clienteMiniLinha{
+        grid-template-columns:1fr;
+      }
+    }
+
+    .debtActions{
+      display:flex;
+      flex-wrap:wrap;
+      gap:7px;
+      margin-top:9px;
+    }
+
+    .debtActions button{
+      font-size:12px;
+      padding:8px 10px;
+      border-radius:11px;
+    }
+
+    .clienteDetalhes{
+      display:block;
+      margin-top:10px;
+      border-top:1px solid #eef2f7;
+      padding-top:10px;
+    }
+
+    .clienteDetalhes.minimized{
+      display:none;
+    }
+
+    .compraBloco{
+      border:1px solid #eef2f7;
+      background:#fcfcfd;
+      border-radius:14px;
+      margin-top:9px;
+      padding:10px;
+    }
+
+    .timeline{
+      border-top:1px dashed #d1d5db;
+      margin-top:10px;
+      padding-top:8px;
+    }
+
+    .timelineTitle{
+      font-size:12px;
+      font-weight:900;
+      color:#374151;
+      margin-bottom:6px;
+    }
+
+    .timelineItem{
+      font-size:12px;
+      color:#374151;
+      background:#f9fafb;
+      border:1px solid #eef2f7;
+      border-radius:10px;
+      padding:7px 8px;
+      margin-top:5px;
+      line-height:1.35;
+    }
+
+    .empty{
+      padding:30px 14px;
+      text-align:center;
+      color:#6b7280;
+      border:1px dashed #cbd5e1;
+      border-radius:16px;
+      background:#fff;
+    }
+
+    .footer{
+      position:fixed;
+      bottom:0;
+      left:0;
+      right:0;
+      background:rgba(255,255,255,.96);
+      backdrop-filter:blur(8px);
+      border-top:1px solid var(--line);
+      padding:10px 14px;
+      text-align:center;
+      font-size:12px;
+      color:#6b7280;
+      z-index:9;
+    }
+
+    .footer b{color:#111827}
+
+    dialog{
+      border:0;
+      border-radius:18px;
+      max-width:430px;
+      width:calc(100% - 26px);
+      box-shadow:0 24px 80px rgba(0,0,0,.35);
+      padding:0;
+    }
+
+    dialog::backdrop{background:rgba(0,0,0,.45)}
+
+    .dialogHead{
+      padding:14px;
+      border-bottom:1px solid var(--line);
+      font-weight:900;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:10px;
+    }
+
+    .dialogTitleBox{
+      display:flex;
+      flex-direction:column;
+      gap:2px;
+    }
+
+    .dialogTitleBox span{
+      font-weight:900;
+    }
+
+    .dialogTitleBox small{
+      color:#6b7280;
+      font-size:11px;
+      font-weight:700;
+    }
+
+    .dialogBody{padding:14px;}
+
+    .dialogBody.minimized{display:none;}
+
+    .dangerText{color:#b91c1c;font-weight:900}
+    .successText{color:#166534;font-weight:900}
+    .hidden{display:none!important}
+
+    .toast{
+      position:fixed;
+      left:50%;
+      bottom:58px;
+      transform:translateX(-50%);
+      background:#111827;
+      color:white;
+      padding:10px 13px;
+      border-radius:999px;
+      font-size:12px;
+      font-weight:800;
+      box-shadow:0 12px 28px rgba(0,0,0,.25);
+      z-index:50;
+      max-width:92%;
+      text-align:center;
+      display:none;
+    }
+
+    .toast.show{
+      display:block;
+      animation:toastin .18s ease-out;
+    }
+
+    @keyframes toastin{
+      from{opacity:0;transform:translate(-50%,10px)}
+      to{opacity:1;transform:translate(-50%,0)}
+    }
+
+    .fileLabel{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      border:1px solid #e5e7eb;
+      background:#f9fafb;
+      border-radius:13px;
+      padding:11px 13px;
+      font-weight:900;
+      cursor:pointer;
+    }
+
+    .fileLabel input{display:none}
+
+    .mono{
+      font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;
+      font-size:11px;
+      background:#f3f4f6;
+      border:1px solid #e5e7eb;
+      border-radius:10px;
+      padding:8px;
+      overflow:auto;
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <div class="wrap topline">
+      <div class="brand">
+        <h1>Controle de Vendas</h1>
+        <p>Clientes • Vendas • Recebimentos</p>
+      </div>
+      <div class="topActions">
+        <button class="topBack" id="btnVoltarTopo" type="button">Voltar</button>
+        <span id="dbStatus" class="pill">Iniciando...</span>
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section class="grid">
+      <aside class="stickySide">
+        <div class="card">
+          <div class="cardHead">
+            <h2 id="formTitle">Nova venda</h2>
+            <div class="headActions">
+              <button class="btnBack" id="btnVoltarCadastro" type="button">Voltar</button>
+              <button class="btnSoft" id="btnToggleCadastro" type="button">Abrir cadastro</button>
+              <button class="btnGreen" id="btnNovaCompraForm" type="button">Nova venda</button>
+              <button class="btnGhost" id="btnNovo" type="button">Limpar</button>
+            </div>
+          </div>
+
+          <div class="cardBody minimized" id="cadastroBody">
+            <form id="formFiado">
+              <input type="hidden" id="editId" />
+              <input type="hidden" id="clienteOrigemId" />
+              <input type="hidden" id="clienteKey" />
+
+              <div class="row">
+                <div>
+                  <label>Nome do cliente</label>
+                  <input id="nome" type="text" autocomplete="name" placeholder="Ex: João Silva" />
+                </div>
+              </div>
+
+              <div class="row2">
+                <div>
+                  <label>Telefone / WhatsApp</label>
+                  <input id="telefone" type="tel" placeholder="Opcional" />
+                </div>
+                <div>
+                  <label>Data da venda</label>
+                  <input id="dataVenda" type="date" />
+                </div>
+              </div>
+
+              <div class="row">
+                <div>
+                  <label>Produto / descrição</label>
+                  <input id="produto" type="text" placeholder="Ex: Óleo, peça, serviço, mercadoria" />
+                </div>
+              </div>
+
+              <div class="row3">
+                <div>
+                  <label>Quantidade</label>
+                  <input id="quantidade" type="number" min="0.01" step="0.01" value="1" />
+                </div>
+                <div>
+                  <label>Valor unitário (R$)</label>
+                  <input id="valorUnitario" type="number" min="0" step="0.01" placeholder="0,00" />
+                </div>
+                <div>
+                  <label>Valor recebido nesta venda (R$)</label>
+                  <input id="valorPago" type="number" min="0" step="0.01" value="0" />
+                </div>
+              </div>
+
+              <div class="row2">
+                <div>
+                  <label>Vencimento / combinado</label>
+                  <input id="vencimento" type="date" />
+                </div>
+                <div>
+                  <label>Situação desta venda</label>
+                  <select id="status">
+                    <option value="aberto">Em aberto</option>
+                    <option value="parcial">Recebeu parte</option>
+                    <option value="pago">Pago / quitado</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="totalBox">
+                <span>
+                  <b>Total da venda</b><br />
+                  <small class="muted">Quantidade × valor unitário</small>
+                </span>
+                <strong id="totalPreview">R$ 0,00</strong>
+              </div>
+
+              <div class="row">
+                <div>
+                  <label>Observações</label>
+                  <textarea id="observacoes" placeholder="Ex: pagar sexta-feira, entregou metade, combinado pelo WhatsApp..."></textarea>
+                </div>
+              </div>
+
+              <div class="btns">
+                <button class="btnPrimary btnFull" type="submit" id="btnSalvar">Salvar venda</button>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <div class="card" style="margin-top:14px">
+          <div class="cardHead">
+            <h2>Backup</h2>
+            <div class="headActions">
+              <button class="btnBack" id="btnVoltarBackup" type="button">Voltar</button>
+              <button class="btnSoft" id="btnToggleBackup" type="button">Abrir backup</button>
+            </div>
+          </div>
+
+          <div class="cardBody minimized" id="backupBody">
+            <div class="btns">
+              <button class="btnBlue" id="btnExportJson" type="button">Exportar JSON</button>
+              <button class="btnGreen" id="btnExportCsv" type="button">Exportar CSV</button>
+
+              <label class="fileLabel">
+                Importar JSON
+                <input id="importJson" type="file" accept="application/json,.json" />
+              </label>
+
+              <label class="fileLabel">
+                Importar CSV
+                <input id="importCsv" type="file" accept="text/csv,.csv" />
+              </label>
+            </div>
+          </div>
+        </div>
+      </aside>
+
+      <section>
+        <div class="stats">
+          <div class="stat">
+            <span>Saldo pendente</span>
+            <strong id="statAberto">R$ 0,00</strong>
+          </div>
+          <div class="stat">
+            <span>Saldo parcial</span>
+            <strong id="statParcial">R$ 0,00</strong>
+          </div>
+          <div class="stat">
+            <span>Total recebido</span>
+            <strong id="statPago">R$ 0,00</strong>
+          </div>
+          <div class="stat">
+            <span>Clientes/Vendas</span>
+            <strong id="statQtd">0</strong>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="cardHead">
+            <h2>Lista de devedores</h2>
+            <div class="headActions">
+              <button class="btnBack" id="btnVoltarLista" type="button">Voltar</button>
+              <button class="btnGhost" id="btnRecarregar" type="button">Atualizar</button>
+            </div>
+          </div>
+
+          <div class="cardBody">
+            <div class="filters">
+              <input id="busca" type="search" placeholder="Buscar por cliente, produto ou telefone" />
+
+              <select id="filtroStatus">
+                <option value="devedores" selected>Somente devedores</option>
+                <option value="todos">Todos</option>
+                <option value="aberto">Em aberto</option>
+                <option value="parcial">Recebeu parte</option>
+                <option value="pago">Pago / quitado</option>
+                <option value="atrasado">Atrasados</option>
+              </select>
+
+              <select id="ordenacao">
+                <option value="recentes">Mais recentes</option>
+                <option value="antigos">Mais antigos</option>
+                <option value="maior_saldo">Maior saldo</option>
+                <option value="nome">Nome A-Z</option>
+              </select>
+
+              <button class="btnSoft" id="btnLimparFiltros" type="button">Limpar filtros</button>
+            </div>
+
+            <div id="lista" class="list"></div>
+            <div id="empty" class="empty hidden">Nenhum registro encontrado.</div>
+          </div>
+        </div>
+      </section>
+    </section>
+  </main>
+
+  <dialog id="dialogVendaRapida">
+    <div class="dialogHead">
+      <div class="dialogTitleBox">
+        <span id="dialogVendaRapidaTitulo">Venda rápida</span>
+        <small id="dialogVendaRapidaSubtitulo">Lançamento simplificado</small>
+      </div>
+      <div class="headActions">
+        <button class="btnBack" id="btnVoltarVendaRapida" type="button">Voltar</button>
+        <button class="btnSoft" id="btnToggleVendaRapida" type="button">Minimizar</button>
+      </div>
+    </div>
+
+    <div class="dialogBody" id="vendaRapidaBody">
+      <input type="hidden" id="rapidaClienteKey" />
+      <input type="hidden" id="rapidaClienteOrigemId" />
+      <input type="hidden" id="rapidaNome" />
+      <input type="hidden" id="rapidaTelefone" />
+
+      <p id="rapidaResumoCliente" class="muted"></p>
+
+      <div class="row2">
+        <div>
+          <label>Valor unitário (R$)</label>
+          <input id="rapidaValorUnitario" type="number" min="0" step="0.01" placeholder="0,00" />
+        </div>
+        <div>
+          <label>Quantidade</label>
+          <input id="rapidaQuantidade" type="number" min="0.01" step="0.01" value="1" />
+        </div>
+      </div>
+
+      <div class="row2">
+        <div>
+          <label>Produto / descrição opcional</label>
+          <input id="rapidaProduto" type="text" placeholder="Se vazio: Produto diverso" />
+        </div>
+        <div>
+          <label>Data da venda</label>
+          <input id="rapidaDataVenda" type="date" />
+        </div>
+      </div>
+
+      <div class="totalBox">
+        <span>
+          <b>Total da venda rápida</b><br>
+          <small class="muted">Se produto ficar vazio, será Produto diverso.</small>
+        </span>
+        <strong id="rapidaTotalPreview">R$ 0,00</strong>
+      </div>
+
+      <div class="btns">
+        <button class="btnPrimary btnFull" id="btnSalvarVendaRapida" type="button">Salvar venda rápida</button>
+        <button class="btnBlue btnFull" id="btnAbrirFichaCompletaRapida" type="button">Abrir ficha completa</button>
+        <button class="btnGhost btnFull" id="btnFecharVendaRapida" type="button">Fechar</button>
+      </div>
+    </div>
+  </dialog>
+
+  <dialog id="dialogPagamento">
+    <div class="dialogHead">
+      <span id="dialogPagamentoTitulo">Registrar recebimento</span>
+      <div class="headActions">
+        <button class="btnBack" id="btnVoltarPagamento" type="button">Voltar</button>
+        <button class="btnGhost" id="closePagamento" type="button">Fechar</button>
+      </div>
+    </div>
+
+    <div class="dialogBody">
+      <input type="hidden" id="pagamentoId" />
+
+      <p id="pagamentoResumo" class="muted"></p>
+
+      <div class="row">
+        <div>
+          <label id="labelValorReceber">Valor recebido agora (R$)</label>
+          <input id="valorReceber" type="number" min="0.01" step="0.01" placeholder="0,00" />
+        </div>
+      </div>
+
+      <p id="pagamentoAviso" class="muted"></p>
+
+      <div class="btns">
+        <button class="btnGreen" id="btnConfirmarPagamento" type="button">Registrar recebimento</button>
+        <button class="btnBlue" id="btnQuitarDialog" type="button">Quitar saldo</button>
+      </div>
+    </div>
+  </dialog>
+
+  <dialog id="dialogInfo">
+    <div class="dialogHead">
+      <span>Informações</span>
+      <div class="headActions">
+        <button class="btnBack" id="btnVoltarInfo" type="button">Voltar</button>
+        <button class="btnGhost" id="closeInfo" type="button">Fechar</button>
+      </div>
+    </div>
+
+    <div class="dialogBody">
+      <div id="dbInfo" class="mono"></div>
+    </div>
+  </dialog>
+
+  <div id="toast" class="toast"></div>
+
+  <footer class="footer">Powered by <b>thIAguinho Soluções</b></footer>
+
+  <script>
+    'use strict';
+
+    const DB_NAME = 'thiaguinho_controle_vendas_db';
+    const DB_VERSION = 1;
+    const STORE = 'vendas';
+
+    let db = null;
+    let fiadosCache = [];
+
+    const el = (id) => document.getElementById(id);
+
+    const moeda = (v) => Number(v || 0).toLocaleString('pt-BR', {
+      style:'currency',
+      currency:'BRL'
+    });
+
+    const hojeISO = () => new Date().toISOString().slice(0,10);
+    const agoraISO = () => new Date().toISOString();
+
+    const normalizar = (s) => String(s || '')
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g,'')
+      .toLowerCase()
+      .trim();
+
+    const parseNum = (v) => {
+      if (typeof v === 'number') return Number.isFinite(v) ? v : 0;
+
+      let s = String(v ?? '').trim();
+
+      if (!s) return 0;
+
+      s = s.replace(/\s/g, '').replace(/[R$]/g, '');
+
+      const temVirgula = s.includes(',');
+      const temPonto = s.includes('.');
+
+      if (temVirgula && temPonto) {
+        const ultimoPonto = s.lastIndexOf('.');
+        const ultimaVirgula = s.lastIndexOf(',');
+
+        if (ultimaVirgula > ultimoPonto) {
+          s = s.replace(/\./g, '').replace(',', '.');
+        } else {
+          s = s.replace(/,/g, '');
+        }
+      } else if (temVirgula) {
+        s = s.replace(',', '.');
+      } else if (temPonto) {
+        const partes = s.split('.');
+
+        if (partes.length > 2) {
+          const decimal = partes.pop();
+          s = partes.join('') + '.' + decimal;
+        }
+      }
+
+      const n = Number(s);
+
+      return Number.isFinite(n) ? n : 0;
+    };
+
+    function uid(){
+      if (window.crypto && window.crypto.randomUUID) return window.crypto.randomUUID();
+      return 'id_' + Date.now() + '_' + Math.random().toString(16).slice(2);
+    }
+
+    function somenteNumeros(s){
+      return String(s || '').replace(/\D/g,'');
+    }
+
+    function escapeHtml(s){
+      return String(s ?? '').replace(/[&<>'"]/g, ch => ({
+        '&':'&amp;',
+        '<':'&lt;',
+        '>':'&gt;',
+        "'":'&#39;',
+        '"':'&quot;'
+      }[ch]));
+    }
+
+    function formatData(s){
+      if (!s) return '-';
+      const [a,m,d] = String(s).slice(0,10).split('-');
+      return d && m && a ? `${d}/${m}/${a}` : s;
+    }
+
+    function formatDataHora(s){
+      if (!s) return '-';
+
+      const d = new Date(s);
+      if (Number.isNaN(d.getTime())) return '-';
+
+      return d.toLocaleString('pt-BR', {
+        day:'2-digit',
+        month:'2-digit',
+        year:'numeric',
+        hour:'2-digit',
+        minute:'2-digit'
+      });
+    }
+
+    function formatQtd(v){
+      const n = parseNum(v);
+      return Number.isInteger(n) ? String(n) : n.toLocaleString('pt-BR');
+    }
+
+    function primeiraLetra(nome){
+      const s = String(nome || '').trim();
+      if (!s) return '?';
+      return s.charAt(0).toUpperCase();
+    }
+
+    function toast(msg){
+      const t = el('toast');
+      t.textContent = msg;
+      t.classList.add('show');
+      clearTimeout(window.__toastTimer);
+      window.__toastTimer = setTimeout(() => t.classList.remove('show'), 2600);
+    }
+
+    function voltarTela(){
+      if (el('dialogVendaRapida').open) {
+        el('dialogVendaRapida').close();
+        return;
+      }
+
+      if (el('dialogPagamento').open) {
+        el('dialogPagamento').close();
+        return;
+      }
+
+      if (el('dialogInfo').open) {
+        el('dialogInfo').close();
+        return;
+      }
+
+      const detalhesAbertos = Array.from(document.querySelectorAll('.clienteDetalhes:not(.minimized)'));
+      if (detalhesAbertos.length) {
+        detalhesAbertos.forEach(bloco => bloco.classList.add('minimized'));
+        document.querySelectorAll('button[data-act="toggleCliente"]').forEach(btn => btn.textContent = 'Abrir detalhes');
+        return;
+      }
+
+      if (!el('cadastroBody').classList.contains('minimized')) {
+        minimizarCadastro();
+        return;
+      }
+
+      if (!el('backupBody').classList.contains('minimized')) {
+        minimizarBackup();
+        return;
+      }
+
+      if (window.history.length > 1) {
+        window.history.back();
+      } else {
+        window.scrollTo({top:0, behavior:'smooth'});
+      }
+    }
+
+    function abrirDB(){
+      return new Promise((resolve, reject) => {
+        if (!window.indexedDB) {
+          reject(new Error('IndexedDB não está disponível neste dispositivo.'));
+          return;
+        }
+
+        const req = indexedDB.open(DB_NAME, DB_VERSION);
+
+        req.onupgradeneeded = (event) => {
+          const database = event.target.result;
+          let store;
+
+          if (!database.objectStoreNames.contains(STORE)) {
+            store = database.createObjectStore(STORE, { keyPath:'id' });
+          } else {
+            store = event.target.transaction.objectStore(STORE);
+          }
+
+          criarIndiceSeguro(store, 'nome', 'nome');
+          criarIndiceSeguro(store, 'status', 'status');
+          criarIndiceSeguro(store, 'dataVenda', 'dataVenda');
+          criarIndiceSeguro(store, 'atualizadoEm', 'atualizadoEm');
+          criarIndiceSeguro(store, 'clienteKey', 'clienteKey');
+        };
+
+        req.onsuccess = () => {
+          db = req.result;
+          db.onversionchange = () => {
+            try { db.close(); } catch (_) {}
+          };
+          resolve(db);
+        };
+
+        req.onerror = () => reject(req.error || new Error('Erro ao abrir banco.'));
+        req.onblocked = () => reject(new Error('Banco bloqueado. Feche e abra o aplicativo novamente.'));
+      });
+    }
+
+    function criarIndiceSeguro(store, nome, campo){
+      try {
+        if (!store.indexNames.contains(nome)) {
+          store.createIndex(nome, campo, { unique:false });
+        }
+      } catch (err) {
+        console.warn('Índice ignorado:', nome, err);
+      }
+    }
+
+    function tx(mode='readonly'){
+      if (!db) throw new Error('Banco ainda não foi iniciado.');
+      return db.transaction(STORE, mode).objectStore(STORE);
+    }
+
+    function listarTodos(){
+      return new Promise((resolve, reject) => {
+        try {
+          const req = tx('readonly').getAll();
+          req.onsuccess = () => resolve(req.result || []);
+          req.onerror = () => reject(req.error);
+        } catch (err) {
+          reject(err);
+        }
+      });
+    }
+
+    function salvarRegistro(item){
+      return new Promise((resolve, reject) => {
+        try {
+          const req = tx('readwrite').put(item);
+          req.onsuccess = () => resolve(item);
+          req.onerror = () => reject(req.error);
+        } catch (err) {
+          reject(err);
+        }
+      });
+    }
+
+    function buscarPorId(id){
+      return new Promise((resolve, reject) => {
+        try {
+          const req = tx('readonly').get(id);
+          req.onsuccess = () => resolve(req.result || null);
+          req.onerror = () => reject(req.error);
+        } catch (err) {
+          reject(err);
+        }
+      });
+    }
+
+    function apagarRegistro(id){
+      return new Promise((resolve, reject) => {
+        try {
+          const req = tx('readwrite').delete(id);
+          req.onsuccess = () => resolve(true);
+          req.onerror = () => reject(req.error);
+        } catch (err) {
+          reject(err);
+        }
+      });
+    }
+
+    function clienteKeyDe(item){
+      const keyExistente = String(item && item.clienteKey ? item.clienteKey : '').trim();
+      if (keyExistente) return keyExistente;
+
+      const tel = somenteNumeros(item && item.telefone);
+      if (tel) return 'tel_' + tel;
+
+      const nome = normalizar(item && item.nome);
+      if (nome) return 'nome_' + nome;
+
+      return 'sem_cliente_' + String(item && item.id ? item.id : uid());
+    }
+
+    function nomeClienteExibicao(item){
+      return item && item.nome ? item.nome : 'Cliente sem nome';
+    }
+
+    function produtoExibicao(item){
+      return item && item.produto ? item.produto : 'Produto não informado';
+    }
+
+    function estaAtrasado(item){
+      if (!item.vencimento || item.status === 'pago') return false;
+      return item.vencimento < hojeISO();
+    }
+
+    function textoStatusCompra(item){
+      if (estaAtrasado(item)) return 'Atrasada';
+      if (item.status === 'pago') return 'Quitada';
+      if (item.status === 'parcial') return 'Recebeu parte';
+      return 'Em aberto';
+    }
+
+    function classeStatusCompra(item){
+      if (estaAtrasado(item)) return 'late';
+      if (item.status === 'pago') return 'pago';
+      if (item.status === 'parcial') return 'parcial';
+      return 'aberto';
+    }
+
+    function diasEmAberto(item){
+      const base = item.dataVenda || (item.criadoEm ? item.criadoEm.slice(0,10) : hojeISO());
+      const d1 = new Date(base + 'T00:00:00');
+      const d2 = new Date(hojeISO() + 'T00:00:00');
+      return Math.max(0, Math.ceil((d2 - d1) / (1000*60*60*24)));
+    }
+
+    function normalizarHistorico(item){
+      if (!Array.isArray(item.historicoRecebimentos)) item.historicoRecebimentos = [];
+      return item.historicoRecebimentos;
+    }
+
+    function ultimoRecebimento(item){
+      const historico = normalizarHistorico(item);
+      if (!historico.length) return null;
+
+      return [...historico].sort((a,b) => String(b.dataHora || '').localeCompare(String(a.dataHora || '')))[0] || null;
+    }
+
+    function registrarMovimentoRecebimento(item, valor, tipo){
+      const valorRecebido = parseNum(valor);
+      if (valorRecebido <= 0) return item;
+
+      const saldoAntes = parseNum(item.saldo);
+      const dataHora = agoraISO();
+      const saldoDepois = +(Math.max(0, saldoAntes - valorRecebido)).toFixed(2);
+
+      normalizarHistorico(item).push({
+        id: uid(),
+        tipo: tipo || 'recebimento',
+        valor: valorRecebido,
+        dataHora,
+        saldoAntes,
+        saldoDepois
+      });
+
+      item.ultimoRecebimentoEm = dataHora;
+      item.valorPago = +(parseNum(item.valorPago) + valorRecebido).toFixed(2);
+
+      if (item.valorPago > parseNum(item.valorTotal)) {
+        item.valorPago = parseNum(item.valorTotal);
+      }
+
+      item.saldo = +(parseNum(item.valorTotal) - parseNum(item.valorPago)).toFixed(2);
+
+      if (item.saldo <= 0 && parseNum(item.valorTotal) > 0) {
+        item.saldo = 0;
+        item.status = 'pago';
+        item.quitadoEm = item.quitadoEm || dataHora;
+      } else if (item.valorPago > 0) {
+        item.status = 'parcial';
+        item.quitadoEm = '';
+      } else {
+        item.status = 'aberto';
+        item.quitadoEm = '';
+      }
+
+      item.atualizadoEm = dataHora;
+      return item;
+    }
+
+    function agruparPorCliente(items){
+      const mapa = new Map();
+
+      items.forEach(item => {
+        const key = clienteKeyDe(item);
+
+        if (!mapa.has(key)) {
+          mapa.set(key, {
+            key,
+            nome: nomeClienteExibicao(item),
+            telefone: item.telefone || '',
+            compras: [],
+            total: 0,
+            pago: 0,
+            saldo: 0,
+            atrasado: false,
+            principal: item,
+            ultimaData: item.atualizadoEm || item.criadoEm || ''
+          });
+        }
+
+        const grupo = mapa.get(key);
+
+        grupo.compras.push(item);
+        grupo.total += parseNum(item.valorTotal);
+        grupo.pago += parseNum(item.valorPago);
+        grupo.saldo += parseNum(item.saldo);
+
+        if (estaAtrasado(item)) grupo.atrasado = true;
+
+        const dataRef = item.atualizadoEm || item.criadoEm || '';
+        if (String(dataRef).localeCompare(String(grupo.ultimaData)) > 0) {
+          grupo.ultimaData = dataRef;
+          grupo.principal = item;
+          grupo.nome = nomeClienteExibicao(item);
+          grupo.telefone = item.telefone || grupo.telefone;
+        }
+      });
+
+      return Array.from(mapa.values()).map(g => ({
+        ...g,
+        total:+g.total.toFixed(2),
+        pago:+g.pago.toFixed(2),
+        saldo:+g.saldo.toFixed(2)
+      }));
+    }
+
+    function mostrarCadastro(){
+      el('cadastroBody').classList.remove('minimized');
+      el('btnToggleCadastro').textContent = 'Minimizar cadastro';
+    }
+
+    function minimizarCadastro(){
+      el('cadastroBody').classList.add('minimized');
+      el('btnToggleCadastro').textContent = 'Abrir cadastro';
+    }
+
+    function alternarCadastro(){
+      const fechado = el('cadastroBody').classList.contains('minimized');
+      if (fechado) mostrarCadastro();
+      else minimizarCadastro();
+    }
+
+    function mostrarBackup(){
+      el('backupBody').classList.remove('minimized');
+      el('btnToggleBackup').textContent = 'Minimizar backup';
+    }
+
+    function minimizarBackup(){
+      el('backupBody').classList.add('minimized');
+      el('btnToggleBackup').textContent = 'Abrir backup';
+    }
+
+    function alternarBackup(){
+      const fechado = el('backupBody').classList.contains('minimized');
+      if (fechado) mostrarBackup();
+      else minimizarBackup();
+    }
+
+    function limparFormulario(){
+      el('formFiado').reset();
+      el('editId').value = '';
+      el('clienteOrigemId').value = '';
+      el('clienteKey').value = '';
+      el('dataVenda').value = hojeISO();
+      el('quantidade').value = '1';
+      el('valorPago').value = '0';
+      el('status').value = 'aberto';
+      el('formTitle').textContent = 'Nova venda';
+      el('btnSalvar').textContent = 'Salvar venda';
+      atualizarTotalPreview();
+    }
+
+    function abrirVendaRapidaLivre(){
+      abrirVendaRapida({
+        clienteKey:'',
+        clienteOrigemId:'',
+        nome:'',
+        telefone:''
+      });
+    }
+
+    function abrirVendaRapidaCliente(id){
+      const item = fiadosCache.find(v => v.id === id);
+      if (!item) {
+        buscarPorId(id).then(reg => {
+          if (!reg) return toast('Registro não encontrado.');
+          abrirVendaRapida({
+            clienteKey: clienteKeyDe(reg),
+            clienteOrigemId: reg.id,
+            nome: reg.nome || '',
+            telefone: reg.telefone || ''
+          });
+        });
+        return;
+      }
+
+      abrirVendaRapida({
+        clienteKey: clienteKeyDe(item),
+        clienteOrigemId: item.id,
+        nome: item.nome || '',
+        telefone: item.telefone || ''
+      });
+    }
+
+    function abrirVendaRapida(dados){
+      el('rapidaClienteKey').value = dados.clienteKey || '';
+      el('rapidaClienteOrigemId').value = dados.clienteOrigemId || '';
+      el('rapidaNome').value = dados.nome || '';
+      el('rapidaTelefone').value = dados.telefone || '';
+
+      el('rapidaValorUnitario').value = '';
+      el('rapidaQuantidade').value = '1';
+      el('rapidaProduto').value = '';
+      el('rapidaDataVenda').value = hojeISO();
+
+      const nome = dados.nome || 'cliente não informado';
+      const telefone = dados.telefone ? ` • ${dados.telefone}` : '';
+
+      el('dialogVendaRapidaTitulo').textContent = dados.clienteKey ? 'Venda rápida para cliente' : 'Venda rápida';
+      el('dialogVendaRapidaSubtitulo').textContent = dados.clienteKey ? `${nome}${telefone}` : 'Lançamento simples';
+      el('rapidaResumoCliente').innerHTML = dados.clienteKey
+        ? `Venda será somada na conta de <b>${escapeHtml(nome)}</b>${escapeHtml(telefone)}.`
+        : `Venda rápida sem cliente definido. Se quiser vincular a um cliente, abra a ficha completa.`;
+
+      el('vendaRapidaBody').classList.remove('minimized');
+      el('btnToggleVendaRapida').textContent = 'Minimizar';
+      atualizarTotalVendaRapida();
+      el('dialogVendaRapida').showModal();
+    }
+
+    function alternarVendaRapida(){
+      const body = el('vendaRapidaBody');
+      const fechado = body.classList.contains('minimized');
+
+      if (fechado) {
+        body.classList.remove('minimized');
+        el('btnToggleVendaRapida').textContent = 'Minimizar';
+      } else {
+        body.classList.add('minimized');
+        el('btnToggleVendaRapida').textContent = 'Abrir';
+      }
+    }
+
+    function calcularVendaRapida(){
+      const quantidade = parseNum(el('rapidaQuantidade').value) || 0;
+      const valorUnitario = parseNum(el('rapidaValorUnitario').value);
+      const valorTotal = +(quantidade * valorUnitario).toFixed(2);
+
+      return {
+        quantidade,
+        valorUnitario,
+        valorTotal
+      };
+    }
+
+    function atualizarTotalVendaRapida(){
+      const c = calcularVendaRapida();
+      el('rapidaTotalPreview').textContent = moeda(c.valorTotal);
+    }
+
+    async function salvarVendaRapida(){
+      try {
+        const c = calcularVendaRapida();
+
+        const id = uid();
+        const nome = el('rapidaNome').value.trim();
+        const telefone = el('rapidaTelefone').value.trim();
+        const produto = el('rapidaProduto').value.trim() || 'Produto diverso';
+        const dataVenda = el('rapidaDataVenda').value || hojeISO();
+
+        let clienteKey = el('rapidaClienteKey').value.trim();
+
+        if (!clienteKey) {
+          clienteKey = clienteKeyDe({
+            id,
+            nome,
+            telefone
+          });
+        }
+
+        const agora = agoraISO();
+
+        const item = {
+          id,
+          nome,
+          telefone,
+          clienteKey,
+          produto,
+          quantidade: c.quantidade,
+          valorUnitario: c.valorUnitario,
+          valorTotal: c.valorTotal,
+          valorPago: 0,
+          saldo: c.valorTotal,
+          status: c.valorTotal > 0 ? 'aberto' : 'aberto',
+          dataVenda,
+          vencimento: '',
+          observacoes: 'Venda rápida',
+          clienteOrigemId: el('rapidaClienteOrigemId').value || '',
+          criadoEm: agora,
+          atualizadoEm: agora,
+          quitadoEm: '',
+          ultimoRecebimentoEm: '',
+          historicoRecebimentos: []
+        };
+
+        await salvarRegistro(item);
+        el('dialogVendaRapida').close();
+        await recarregar();
+
+        toast('Venda rápida salva.');
+      } catch (err) {
+        console.error('Erro ao salvar venda rápida:', err);
+        alert('Erro ao salvar venda rápida: ' + (err && err.message ? err.message : err));
+      }
+    }
+
+    function abrirFichaCompletaDaRapida(){
+      const c = calcularVendaRapida();
+
+      limparFormulario();
+
+      el('clienteKey').value = el('rapidaClienteKey').value || '';
+      el('clienteOrigemId').value = el('rapidaClienteOrigemId').value || '';
+      el('nome').value = el('rapidaNome').value || '';
+      el('telefone').value = el('rapidaTelefone').value || '';
+      el('produto').value = el('rapidaProduto').value || '';
+      el('quantidade').value = c.quantidade || 1;
+      el('valorUnitario').value = c.valorUnitario || '';
+      el('valorPago').value = '0';
+      el('dataVenda').value = el('rapidaDataVenda').value || hojeISO();
+      el('status').value = 'aberto';
+
+      el('formTitle').textContent = el('nome').value ? 'Nova venda para cliente' : 'Nova venda';
+      el('btnSalvar').textContent = 'Salvar venda';
+
+      el('dialogVendaRapida').close();
+      mostrarCadastro();
+      atualizarTotalPreview();
+      window.scrollTo({top:0, behavior:'smooth'});
+    }
+
+    function iniciarNovaCompraManual(){
+      abrirVendaRapidaLivre();
+    }
+
+    async function novaCompraDoCliente(id){
+      abrirVendaRapidaCliente(id);
+    }
+
+    function calcularObjetoDoFormulario(){
+      const quantidade = parseNum(el('quantidade').value) || 0;
+      const valorUnitario = parseNum(el('valorUnitario').value);
+      const valorTotal = +(quantidade * valorUnitario).toFixed(2);
+
+      let valorPago = parseNum(el('valorPago').value);
+      if (valorPago > valorTotal) valorPago = valorTotal;
+
+      const saldo = +(valorTotal - valorPago).toFixed(2);
+
+      let status = el('status').value;
+
+      if (saldo <= 0 && valorTotal > 0) status = 'pago';
+      else if (valorPago > 0) status = 'parcial';
+      else status = status === 'pago' ? 'aberto' : status;
+
+      return {
+        quantidade,
+        valorUnitario,
+        valorTotal,
+        valorPago,
+        saldo,
+        status
+      };
+    }
+
+    function atualizarTotalPreview(){
+      const c = calcularObjetoDoFormulario();
+      el('totalPreview').textContent = moeda(c.valorTotal);
+    }
+
+    async function onSubmit(e){
+      e.preventDefault();
+
+      try {
+        const c = calcularObjetoDoFormulario();
+
+        const editId = el('editId').value.trim();
+        const id = editId || uid();
+        const existente = editId ? await buscarPorId(id) : null;
+
+        const nomeInformado = el('nome').value.trim();
+        const telefoneInformado = el('telefone').value.trim();
+        const produtoInformado = el('produto').value.trim() || 'Produto diverso';
+        const dataInformada = el('dataVenda').value || hojeISO();
+
+        let keyFinal = el('clienteKey').value.trim();
+
+        if (!keyFinal && existente && existente.clienteKey) {
+          keyFinal = existente.clienteKey;
+        }
+
+        if (!keyFinal) {
+          keyFinal = clienteKeyDe({
+            id,
+            nome:nomeInformado,
+            telefone:telefoneInformado
+          });
+        }
+
+        const agora = agoraISO();
+
+        let historicoRecebimentos = existente && Array.isArray(existente.historicoRecebimentos)
+          ? existente.historicoRecebimentos
+          : [];
+
+        let quitadoEm = existente && existente.quitadoEm ? existente.quitadoEm : '';
+        let ultimoRecebimentoEm = existente && existente.ultimoRecebimentoEm ? existente.ultimoRecebimentoEm : '';
+
+        if (!existente && c.valorPago > 0) {
+          historicoRecebimentos.push({
+            id: uid(),
+            tipo: c.saldo <= 0 ? 'recebimento_inicial_quitacao' : 'recebimento_inicial_parcial',
+            valor: c.valorPago,
+            dataHora: agora,
+            saldoAntes: c.valorTotal,
+            saldoDepois: c.saldo
+          });
+
+          ultimoRecebimentoEm = agora;
+        }
+
+        if (existente) {
+          const valorPagoAnterior = parseNum(existente.valorPago);
+          const diferenca = +(c.valorPago - valorPagoAnterior).toFixed(2);
+
+          if (diferenca !== 0) {
+            historicoRecebimentos.push({
+              id: uid(),
+              tipo: 'ajuste_manual_edicao',
+              valor: diferenca,
+              dataHora: agora,
+              saldoAntes: parseNum(existente.saldo),
+              saldoDepois: c.saldo
+            });
+
+            ultimoRecebimentoEm = agora;
+          }
+        }
+
+        if (c.saldo <= 0 && c.valorTotal > 0) {
+          quitadoEm = quitadoEm || agora;
+        } else {
+          quitadoEm = '';
+        }
+
+        const item = {
+          id,
+          nome: nomeInformado,
+          telefone: telefoneInformado,
+          clienteKey: keyFinal,
+          produto: produtoInformado,
+          quantidade: c.quantidade,
+          valorUnitario: c.valorUnitario,
+          valorTotal: c.valorTotal,
+          valorPago: c.valorPago,
+          saldo: c.saldo,
+          status: c.status,
+          dataVenda: dataInformada,
+          vencimento: el('vencimento').value,
+          observacoes: el('observacoes').value.trim(),
+          clienteOrigemId: el('clienteOrigemId').value || (existente && existente.clienteOrigemId ? existente.clienteOrigemId : ''),
+          criadoEm: existente && existente.criadoEm ? existente.criadoEm : agora,
+          atualizadoEm: agora,
+          quitadoEm,
+          ultimoRecebimentoEm,
+          historicoRecebimentos
+        };
+
+        await salvarRegistro(item);
+        await recarregar();
+        limparFormulario();
+        minimizarCadastro();
+
+        toast('Venda salva com sucesso.');
+      } catch (err) {
+        console.error('Erro ao salvar venda:', err);
+        alert('Erro ao salvar venda: ' + (err && err.message ? err.message : err));
+      }
+    }
+
+    function renderStats(items){
+      const grupos = agruparPorCliente(items);
+
+      const aberto = grupos.reduce((s,g)=>s + parseNum(g.saldo),0);
+
+      const parcialSaldo = grupos
+        .filter(g => g.pago > 0 && g.saldo > 0)
+        .reduce((s,g)=>s + parseNum(g.saldo),0);
+
+      const recebido = grupos.reduce((s,g)=>s + parseNum(g.pago),0);
+
+      el('statAberto').textContent = moeda(aberto);
+      el('statParcial').textContent = moeda(parcialSaldo);
+      el('statPago').textContent = moeda(recebido);
+      el('statQtd').textContent = `${grupos.length}/${items.length}`;
+    }
+
+    function renderHistorico(item){
+      const historico = normalizarHistorico(item);
+
+      if (!historico.length) {
+        return `<div class="timeline"><div class="timelineTitle">Histórico financeiro</div><div class="timelineItem">Nenhum recebimento registrado ainda.</div></div>`;
+      }
+
+      const itens = [...historico]
+        .sort((a,b) => String(b.dataHora || '').localeCompare(String(a.dataHora || '')))
+        .map(h => {
+          const tipo = h.tipo === 'quitacao_cliente' ? 'Quitação do cliente'
+            : h.tipo === 'quitacao_venda' ? 'Quitação da venda'
+            : h.tipo === 'recebimento_cliente' ? 'Recebimento do cliente'
+            : h.tipo === 'recebimento_venda' ? 'Recebimento desta venda'
+            : h.tipo === 'recebimento_inicial_quitacao' ? 'Recebimento inicial com quitação'
+            : h.tipo === 'recebimento_inicial_parcial' ? 'Recebimento inicial parcial'
+            : h.tipo === 'ajuste_manual_edicao' ? 'Ajuste manual na edição'
+            : 'Recebimento';
+
+          return `
+            <div class="timelineItem">
+              <b>${escapeHtml(tipo)}</b><br>
+              Valor: <b>${moeda(h.valor)}</b><br>
+              Data/hora: <b>${formatDataHora(h.dataHora)}</b><br>
+              Saldo antes: ${moeda(h.saldoAntes)} • Saldo depois: ${moeda(h.saldoDepois)}
+            </div>
+          `;
+        }).join('');
+
+      return `<div class="timeline"><div class="timelineTitle">Histórico financeiro</div>${itens}</div>`;
+    }
+
+    function renderLista(){
+      const busca = normalizar(el('busca').value);
+      const filtroStatus = el('filtroStatus').value;
+      const ordenacao = el('ordenacao').value;
+
+      let items = [...fiadosCache];
+
+      if (busca) {
+        items = items.filter(i => normalizar(`${i.nome} ${i.telefone} ${i.produto} ${i.observacoes}`).includes(busca));
+      }
+
+      if (filtroStatus !== 'todos') {
+        if (filtroStatus === 'devedores') {
+          items = items.filter(i => parseNum(i.saldo) > 0);
+        } else if (filtroStatus === 'atrasado') {
+          items = items.filter(estaAtrasado);
+        } else {
+          items = items.filter(i => i.status === filtroStatus);
+        }
+      }
+
+      let grupos = agruparPorCliente(items);
+
+      if (filtroStatus === 'devedores') {
+        grupos = grupos.filter(g => parseNum(g.saldo) > 0);
+      }
+
+      grupos.sort((a,b) => {
+        if (ordenacao === 'antigos') {
+          const da = a.compras.map(i => i.dataVenda || '').sort()[0] || '';
+          const db = b.compras.map(i => i.dataVenda || '').sort()[0] || '';
+          return String(da).localeCompare(String(db));
+        }
+
+        if (ordenacao === 'maior_saldo') return parseNum(b.saldo) - parseNum(a.saldo);
+        if (ordenacao === 'nome') return String(a.nome || '').localeCompare(String(b.nome || ''), 'pt-BR');
+
+        return String(b.ultimaData || '').localeCompare(String(a.ultimaData || ''));
+      });
+
+      const box = el('lista');
+      box.innerHTML = '';
+      el('empty').classList.toggle('hidden', grupos.length > 0);
+
+      grupos.forEach(grupo => {
+        const grupoPago = parseNum(grupo.saldo) <= 0;
+
+        const statusClass = grupo.atrasado && !grupoPago
+          ? 'late'
+          : grupoPago
+            ? 'pago'
+            : grupo.pago > 0
+              ? 'parcial'
+              : 'aberto';
+
+        const statusText = grupo.atrasado && !grupoPago
+          ? 'Atrasado'
+          : grupoPago
+            ? 'Quitado'
+            : grupo.pago > 0
+              ? 'Recebeu parte'
+              : 'Em aberto';
+
+        const classeCard = grupo.atrasado && !grupoPago
+          ? 'debtAtrasado'
+          : grupoPago
+            ? 'debtPago'
+            : grupo.pago > 0
+              ? 'debtParcial'
+              : 'debtAberto';
+
+        const classeAvatar = grupo.atrasado && !grupoPago
+          ? 'avatarAtrasado'
+          : grupoPago
+            ? 'avatarPago'
+            : grupo.pago > 0
+              ? 'avatarParcial'
+              : 'avatarAberto';
+
+        const comprasOrdenadas = [...grupo.compras]
+          .sort((a,b) => String(b.dataVenda || b.criadoEm || '').localeCompare(String(a.dataVenda || a.criadoEm || '')));
+
+        const comprasHtml = comprasOrdenadas.map(item => {
+          const ultimo = ultimoRecebimento(item);
+
+          return `
+            <div class="compraBloco">
+              <div class="debtTop" style="margin-bottom:4px">
+                <div>
+                  <div class="product">
+                    <b>${escapeHtml(produtoExibicao(item))}</b> • Qtd ${formatQtd(item.quantidade)} • Venda: ${formatData(item.dataVenda)}
+                  </div>
+                </div>
+                <span class="badge ${classeStatusCompra(item)}">${textoStatusCompra(item)}</span>
+              </div>
+
+              <div class="moneyGrid">
+                <div>Total<strong>${moeda(item.valorTotal)}</strong></div>
+                <div>Recebido<strong>${moeda(item.valorPago)}</strong></div>
+                <div>Falta<strong>${moeda(item.saldo)}</strong></div>
+              </div>
+
+              <div class="muted">
+                Criado em: <b>${formatDataHora(item.criadoEm)}</b><br>
+                Última atualização: <b>${formatDataHora(item.atualizadoEm)}</b><br>
+                ${ultimo ? `Último recebimento: <b>${formatDataHora(ultimo.dataHora)}</b> • ${moeda(ultimo.valor)}<br>` : ''}
+                ${item.quitadoEm ? `Quitado em: <b>${formatDataHora(item.quitadoEm)}</b><br>` : ''}
+                ${item.vencimento ? `Vencimento: <b>${formatData(item.vencimento)}</b><br>` : ''}
+                ${diasEmAberto(item)} dia(s) desde a venda
+                ${item.observacoes ? `<br>Obs: ${escapeHtml(item.observacoes)}` : ''}
+              </div>
+
+              ${renderHistorico(item)}
+
+              <div class="debtActions">
+                <button class="btnBack" data-act="voltarCard">Voltar</button>
+                <button class="btnBlue" data-act="editar" data-id="${escapeHtml(item.id)}">Editar venda</button>
+                <button class="btnGreen" data-act="receber" data-id="${escapeHtml(item.id)}" ${item.status === 'pago' ? 'disabled' : ''}>Receber desta</button>
+                <button class="btnSoft" data-act="quitar" data-id="${escapeHtml(item.id)}" ${item.status === 'pago' ? 'disabled' : ''}>Quitar esta</button>
+                <button class="btnDanger" data-act="apagar" data-id="${escapeHtml(item.id)}">Excluir</button>
+              </div>
+            </div>
+          `;
+        }).join('');
+
+        const div = document.createElement('article');
+        div.className = `debt ${classeCard}`;
+
+        div.innerHTML = `
+          <div class="clienteCabecalho">
+            <div class="avatarCliente ${classeAvatar}">
+              ${escapeHtml(primeiraLetra(grupo.nome))}
+            </div>
+
+            <div>
+              <div class="client">${escapeHtml(grupo.nome)}</div>
+              <div class="product">
+                ${escapeHtml(grupo.telefone || 'sem telefone')} • ${grupo.compras.length} venda(s)
+              </div>
+            </div>
+
+            <span class="badge ${statusClass}">${statusText}</span>
+          </div>
+
+          <div class="clienteMiniLinha">
+            <div class="miniInfo">Total vendido<b>${moeda(grupo.total)}</b></div>
+            <div class="miniInfo">Recebido<b>${moeda(grupo.pago)}</b></div>
+            <div class="miniInfo">Pendente<b>${moeda(grupo.saldo)}</b></div>
+          </div>
+
+          <div class="muted" style="margin-top:8px">
+            Última movimentação: <b>${formatDataHora(grupo.ultimaData)}</b>
+          </div>
+
+          <div class="debtActions">
+            <button class="btnBack" data-act="voltarCard">Voltar</button>
+            <button class="btnSoft" data-act="toggleCliente" data-key="${escapeHtml(grupo.key)}">Abrir detalhes</button>
+            <button class="btnGreen" data-act="novaCompra" data-id="${escapeHtml(grupo.principal.id)}">Nova venda</button>
+            <button class="btnBlue" data-act="receberCliente" data-key="${escapeHtml(grupo.key)}" ${grupoPago ? 'disabled' : ''}>Receber cliente</button>
+            <button class="btnWarn" data-act="quitarCliente" data-key="${escapeHtml(grupo.key)}" ${grupoPago ? 'disabled' : ''}>Quitar cliente</button>
+          </div>
+
+          <div class="clienteDetalhes minimized" data-cliente-key="${escapeHtml(grupo.key)}">
+            ${comprasHtml}
+          </div>
+        `;
+
+        box.appendChild(div);
+      });
+    }
+
+    function alternarCliente(clienteKey, botao){
+      const blocos = document.querySelectorAll('[data-cliente-key]');
+      let bloco = null;
+
+      blocos.forEach(b => {
+        if (b.getAttribute('data-cliente-key') === clienteKey) bloco = b;
+      });
+
+      if (!bloco) return;
+
+      const minimizado = bloco.classList.contains('minimized');
+
+      if (minimizado) {
+        bloco.classList.remove('minimized');
+        botao.textContent = 'Minimizar detalhes';
+      } else {
+        bloco.classList.add('minimized');
+        botao.textContent = 'Abrir detalhes';
+      }
+    }
+
+    async function recarregar(){
+      fiadosCache = await listarTodos();
+
+      let precisaMigrar = false;
+
+      fiadosCache.forEach(item => {
+        if (!item.clienteKey) {
+          item.clienteKey = clienteKeyDe(item);
+          precisaMigrar = true;
+        }
+
+        item.quantidade = parseNum(item.quantidade);
+        item.valorUnitario = parseNum(item.valorUnitario);
+        item.valorTotal = parseNum(item.valorTotal);
+        item.valorPago = parseNum(item.valorPago);
+        item.saldo = parseNum(item.saldo);
+
+        if (!Array.isArray(item.historicoRecebimentos)) {
+          item.historicoRecebimentos = [];
+          precisaMigrar = true;
+        }
+
+        if (!item.dataVenda) item.dataVenda = hojeISO();
+        if (!item.criadoEm) item.criadoEm = agoraISO();
+        if (!item.atualizadoEm) item.atualizadoEm = agoraISO();
+
+        if (item.saldo <= 0 && item.valorTotal > 0) {
+          item.status = 'pago';
+          if (!item.quitadoEm) {
+            item.quitadoEm = item.atualizadoEm || agoraISO();
+            precisaMigrar = true;
+          }
+        } else if (item.valorPago > 0) {
+          item.status = 'parcial';
+          item.quitadoEm = '';
+        } else {
+          item.status = 'aberto';
+          item.quitadoEm = '';
+        }
+
+        if (!['aberto','parcial','pago'].includes(item.status)) {
+          item.status = item.saldo <= 0 && item.valorTotal > 0 ? 'pago' : item.valorPago > 0 ? 'parcial' : 'aberto';
+          precisaMigrar = true;
+        }
+      });
+
+      if (precisaMigrar) {
+        for (const item of fiadosCache) {
+          await salvarRegistro(item);
+        }
+
+        fiadosCache = await listarTodos();
+      }
+
+      renderStats(fiadosCache);
+      renderLista();
+
+      const grupos = agruparPorCliente(fiadosCache);
+      const devedores = grupos.filter(g => parseNum(g.saldo) > 0).length;
+
+      el('dbStatus').textContent = `${devedores} devedor(es)`;
+      atualizarDbInfo();
+      salvarSnapshotNativoSilencioso();
+    }
+
+    async function editar(id){
+      const item = await buscarPorId(id);
+      if (!item) return toast('Registro não encontrado.');
+
+      el('editId').value = item.id;
+      el('clienteOrigemId').value = item.clienteOrigemId || '';
+      el('clienteKey').value = clienteKeyDe(item);
+      el('nome').value = item.nome || '';
+      el('telefone').value = item.telefone || '';
+      el('produto').value = item.produto || '';
+      el('quantidade').value = item.quantidade || 1;
+      el('valorUnitario').value = item.valorUnitario || 0;
+      el('valorPago').value = item.valorPago || 0;
+      el('dataVenda').value = item.dataVenda || hojeISO();
+      el('vencimento').value = item.vencimento || '';
+      el('status').value = item.status || 'aberto';
+      el('observacoes').value = item.observacoes || '';
+      el('formTitle').textContent = 'Editar venda';
+      el('btnSalvar').textContent = 'Salvar alterações';
+
+      mostrarCadastro();
+      atualizarTotalPreview();
+
+      window.scrollTo({top:0, behavior:'smooth'});
+    }
+
+    async function quitar(id){
+      const item = await buscarPorId(id);
+      if (!item) return;
+
+      const saldoAtual = parseNum(item.saldo);
+      registrarMovimentoRecebimento(item, saldoAtual, 'quitacao_venda');
+
+      await salvarRegistro(item);
+      await recarregar();
+
+      toast('Venda quitada.');
+    }
+
+    async function abrirPagamento(id){
+      const item = await buscarPorId(id);
+      if (!item) return;
+
+      el('dialogPagamentoTitulo').textContent = 'Receber desta venda';
+      el('labelValorReceber').textContent = 'Valor recebido para esta venda (R$)';
+      el('pagamentoId').value = id;
+      el('valorReceber').value = '';
+
+      el('pagamentoResumo').innerHTML = `
+        <b>${escapeHtml(nomeClienteExibicao(item))}</b><br>
+        Venda: <b>${escapeHtml(produtoExibicao(item))}</b><br>
+        Total: <b>${moeda(item.valorTotal)}</b><br>
+        Recebido: <b>${moeda(item.valorPago)}</b><br>
+        Pendente: <b>${moeda(item.saldo)}</b>
+      `;
+
+      el('pagamentoAviso').textContent = 'Este recebimento será abatido somente desta venda e ficará salvo no histórico.';
+      el('dialogPagamento').showModal();
+    }
+
+    async function abrirPagamentoCliente(clienteKey){
+      const compras = fiadosCache.filter(i => clienteKeyDe(i) === clienteKey && parseNum(i.saldo) > 0);
+
+      if (!compras.length) return toast('Cliente sem saldo pendente.');
+
+      const totalSaldo = compras.reduce((s,i)=>s + parseNum(i.saldo),0);
+      const totalComprado = compras.reduce((s,i)=>s + parseNum(i.valorTotal),0);
+      const totalRecebido = compras.reduce((s,i)=>s + parseNum(i.valorPago),0);
+      const principal = compras[0];
+
+      el('dialogPagamentoTitulo').textContent = 'Receber do cliente';
+      el('labelValorReceber').textContent = 'Valor recebido do cliente agora (R$)';
+      el('pagamentoId').value = 'cliente::' + clienteKey;
+      el('valorReceber').value = '';
+
+      el('pagamentoResumo').innerHTML = `
+        <b>${escapeHtml(nomeClienteExibicao(principal))}</b><br>
+        Vendas pendentes: <b>${compras.length}</b><br>
+        Total vendido: <b>${moeda(totalComprado)}</b><br>
+        Total recebido: <b>${moeda(totalRecebido)}</b><br>
+        Saldo pendente: <b>${moeda(totalSaldo)}</b>
+      `;
+
+      el('pagamentoAviso').textContent = 'O valor será abatido das vendas mais antigas para as mais novas e ficará salvo no histórico.';
+      el('dialogPagamento').showModal();
+    }
+
+    async function confirmarPagamentoCliente(clienteKey, valorRecebido){
+      let restante = parseNum(valorRecebido);
+
+      if (restante <= 0) return toast('Informe um valor recebido.');
+
+      const compras = fiadosCache
+        .filter(i => clienteKeyDe(i) === clienteKey && parseNum(i.saldo) > 0)
+        .sort((a,b) => String(a.dataVenda || a.criadoEm || '').localeCompare(String(b.dataVenda || b.criadoEm || '')));
+
+      if (!compras.length) return toast('Cliente sem saldo pendente.');
+
+      for (const item of compras) {
+        if (restante <= 0) break;
+
+        const saldoAtual = parseNum(item.saldo);
+        const abatimento = Math.min(saldoAtual, restante);
+
+        registrarMovimentoRecebimento(item, abatimento, abatimento >= saldoAtual ? 'quitacao_cliente' : 'recebimento_cliente');
+
+        restante = +(restante - abatimento).toFixed(2);
+
+        await salvarRegistro(item);
+      }
+
+      el('dialogPagamento').close();
+      await recarregar();
+
+      toast('Recebimento lançado no cliente.');
+    }
+
+    async function confirmarPagamento(quitarTudo=false){
+      const id = el('pagamentoId').value;
+
+      if (id.startsWith('cliente::')) {
+        const clienteKey = id.replace('cliente::', '');
+        const compras = fiadosCache.filter(i => clienteKeyDe(i) === clienteKey && parseNum(i.saldo) > 0);
+        const saldoCliente = compras.reduce((s,i)=>s + parseNum(i.saldo),0);
+        const recebidoAgora = quitarTudo ? saldoCliente : parseNum(el('valorReceber').value);
+
+        return confirmarPagamentoCliente(clienteKey, recebidoAgora);
+      }
+
+      const item = await buscarPorId(id);
+      if (!item) return;
+
+      const recebidoAgora = quitarTudo ? parseNum(item.saldo) : parseNum(el('valorReceber').value);
+
+      if (recebidoAgora <= 0) return toast('Informe um valor recebido.');
+
+      registrarMovimentoRecebimento(item, recebidoAgora, quitarTudo ? 'quitacao_venda' : 'recebimento_venda');
+
+      await salvarRegistro(item);
+
+      el('dialogPagamento').close();
+      await recarregar();
+
+      toast('Recebimento registrado.');
+    }
+
+    async function quitarCliente(clienteKey){
+      const compras = fiadosCache.filter(i => clienteKeyDe(i) === clienteKey && parseNum(i.saldo) > 0);
+
+      if (!compras.length) {
+        toast('Cliente sem saldo pendente.');
+        return;
+      }
+
+      const nome = nomeClienteExibicao(compras[0]);
+      const saldoTotal = compras.reduce((s,i)=>s + parseNum(i.saldo),0);
+
+      if (!confirm(`Quitar todas as pendências de ${nome}?\n\nSaldo pendente: ${moeda(saldoTotal)}\nVendas pendentes: ${compras.length}`)) return;
+
+      for (const item of compras) {
+        const saldoAtual = parseNum(item.saldo);
+        registrarMovimentoRecebimento(item, saldoAtual, 'quitacao_cliente');
+        await salvarRegistro(item);
+      }
+
+      await recarregar();
+
+      toast('Cliente quitado com sucesso.');
+    }
+
+    async function excluir(id){
+      const item = await buscarPorId(id);
+      if (!item) return;
+
+      if (!confirm(`Excluir esta venda de ${nomeClienteExibicao(item)}?\n\nProduto: ${produtoExibicao(item)}\nValor: ${moeda(item.valorTotal)}`)) return;
+
+      await apagarRegistro(id);
+      await recarregar();
+
+      toast('Venda excluída.');
+    }
+
+    function backupObjeto(){
+      return {
+        app: 'Controle de Vendas - thIAguinho Soluções',
+        formato: 'thiaguinho-controle-vendas-json-v2',
+        geradoEm: agoraISO(),
+        totalRegistros: fiadosCache.length,
+        totalClientes: agruparPorCliente(fiadosCache).length,
+        vendas: fiadosCache,
+        fiados: fiadosCache
+      };
+    }
+
+    function nomeArquivoBase(){
+      return `controle_vendas_${new Date().toISOString().slice(0,19).replace(/[T:]/g,'-')}`;
+    }
+
+    function downloadBlob(blob, filename){
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+
+      a.href = url;
+      a.download = filename;
+
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+
+      setTimeout(()=>URL.revokeObjectURL(url), 1000);
+    }
+
+    async function exportarJson(){
+      await recarregar();
+
+      const json = JSON.stringify(backupObjeto(), null, 2);
+      const filename = nomeArquivoBase() + '.json';
+      const saved = await salvarArquivoNativo(filename, json, 'application/json');
+
+      if (!saved) downloadBlob(new Blob([json], {type:'application/json'}), filename);
+
+      toast('JSON exportado.');
+    }
+
+    function gerarCsv(){
+      const headers = [
+        'id',
+        'clienteKey',
+        'nome',
+        'telefone',
+        'produto',
+        'quantidade',
+        'valorUnitario',
+        'valorTotal',
+        'valorPago',
+        'saldo',
+        'status',
+        'dataVenda',
+        'vencimento',
+        'observacoes',
+        'clienteOrigemId',
+        'criadoEm',
+        'atualizadoEm',
+        'quitadoEm',
+        'ultimoRecebimentoEm',
+        'historicoRecebimentos'
+      ];
+
+      const rows = [headers.join(';')];
+
+      fiadosCache.forEach(item => {
+        rows.push(headers.map(h => {
+          if (h === 'historicoRecebimentos') return csvEscape(JSON.stringify(item[h] || []));
+          return csvEscape(item[h]);
+        }).join(';'));
+      });
+
+      return rows.join('\n');
+    }
+
+    function csvEscape(v){
+      const s = String(v ?? '').replace(/"/g,'""');
+      return /[;"\n\r]/.test(s) ? `"${s}"` : s;
+    }
+
+    async function exportarCsv(){
+      await recarregar();
+
+      const csv = gerarCsv();
+      const filename = nomeArquivoBase() + '.csv';
+      const saved = await salvarArquivoNativo(filename, csv, 'text/csv');
+
+      if (!saved) downloadBlob(new Blob(['\ufeff' + csv], {type:'text/csv;charset=utf-8'}), filename);
+
+      toast('CSV exportado.');
+    }
+
+    async function salvarArquivoNativo(filename, content, mime){
+      try {
+        const plugins = window.Capacitor && window.Capacitor.Plugins;
+        const Filesystem = plugins && plugins.Filesystem;
+        const Share = plugins && plugins.Share;
+
+        if (!Filesystem) return false;
+
+        const base64 = btoa(unescape(encodeURIComponent(content)));
+        const path = `ControleVendas/${filename}`;
+
+        await Filesystem.mkdir({
+          path:'ControleVendas',
+          directory:'DOCUMENTS',
+          recursive:true
+        }).catch(()=>{});
+
+        const result = await Filesystem.writeFile({
+          path,
+          data:base64,
+          directory:'DOCUMENTS',
+          recursive:true
+        });
+
+        if (Share && result && result.uri) {
+          await Share.share({
+            title:'Backup Controle de Vendas',
+            text:'Arquivo exportado pelo Controle de Vendas.',
+            url:result.uri,
+            dialogTitle:'Salvar ou compartilhar backup'
+          }).catch(()=>{});
+        }
+
+        return true;
+      } catch (err) {
+        console.warn('Falha no salvamento nativo, usando download padrão:', err);
+        return false;
+      }
+    }
+
+    async function salvarSnapshotNativoSilencioso(){
+      try {
+        const plugins = window.Capacitor && window.Capacitor.Plugins;
+        const Filesystem = plugins && plugins.Filesystem;
+
+        if (!Filesystem || !fiadosCache) return;
+
+        const json = JSON.stringify(backupObjeto());
+        const base64 = btoa(unescape(encodeURIComponent(json)));
+
+        await Filesystem.writeFile({
+          path:'controle_vendas_snapshot.json',
+          data:base64,
+          directory:'DATA',
+          recursive:true
+        });
+      } catch (_) {}
+    }
+
+    async function importarJsonArquivo(file){
+      const text = await file.text();
+
+      let data;
+
+      try {
+        data = JSON.parse(text);
+      } catch {
+        toast('JSON inválido.');
+        return;
+      }
+
+      let arr = [];
+
+      if (Array.isArray(data)) {
+        arr = data;
+      } else if (Array.isArray(data.vendas)) {
+        arr = data.vendas;
+      } else if (Array.isArray(data.fiados)) {
+        arr = data.fiados;
+      } else if (data.vendas && typeof data.vendas === 'object') {
+        arr = Object.entries(data.vendas).map(([id,v]) => ({id, ...v}));
+      } else if (data.fiados && typeof data.fiados === 'object') {
+        arr = Object.entries(data.fiados).map(([id,v]) => ({id, ...v}));
+      } else {
+        toast('Formato JSON não reconhecido.');
+        return;
+      }
+
+      const qtd = await importarLista(arr);
+
+      await recarregar();
+
+      toast(`${qtd} registro(s) importado(s).`);
+    }
+
+    function parseCsv(text){
+      const rows = [];
+      let row = [];
+      let field = '';
+      let inside = false;
+
+      for (let i=0;i<text.length;i++){
+        const ch = text[i];
+        const next = text[i+1];
+
+        if (ch === '"') {
+          if (inside && next === '"') {
+            field += '"';
+            i++;
+          } else {
+            inside = !inside;
+          }
+        } else if (ch === ';' && !inside) {
+          row.push(field);
+          field='';
+        } else if ((ch === '\n' || ch === '\r') && !inside) {
+          if (ch === '\r' && next === '\n') i++;
+
+          row.push(field);
+          field='';
+
+          if (row.some(v => v !== '')) rows.push(row);
+
+          row = [];
+        } else {
+          field += ch;
+        }
+      }
+
+      row.push(field);
+
+      if (row.some(v => v !== '')) rows.push(row);
+
+      return rows;
+    }
+
+    async function importarCsvArquivo(file){
+      const text = await file.text();
+      const rows = parseCsv(text.replace(/^\ufeff/,''));
+
+      if (rows.length < 2) return toast('CSV sem registros.');
+
+      const headers = rows[0].map(h => h.trim());
+
+      const arr = rows.slice(1).map(cols => {
+        const obj = {};
+        headers.forEach((h,i) => obj[h] = cols[i] ?? '');
+        return obj;
+      });
+
+      const qtd = await importarLista(arr);
+
+      await recarregar();
+
+      toast(`${qtd} registro(s) importado(s).`);
+    }
+
+    async function importarLista(arr){
+      let count = 0;
+
+      for (const raw of arr) {
+        const item = normalizarItemImportado(raw);
+        await salvarRegistro(item);
+        count++;
+      }
+
+      return count;
+    }
+
+    function normalizarItemImportado(raw){
+      const idFinal = raw.id || uid();
+
+      const nomeFinal = String(raw.nome || raw.cliente || raw.nomeCliente || '').trim();
+      const telefoneFinal = String(raw.telefone || raw.whatsapp || '').trim();
+
+      const quantidade = parseNum(raw.quantidade || raw.qtd || 1) || 1;
+
+      let valorUnitario = parseNum(raw.valorUnitario || raw.valor_unitario || raw.vunit || raw.valor || 0);
+      let valorTotal = parseNum(raw.valorTotal || raw.valor_total || raw.total || 0);
+
+      if (!valorTotal && valorUnitario) valorTotal = +(quantidade * valorUnitario).toFixed(2);
+      if (!valorUnitario && valorTotal) valorUnitario = +(valorTotal / quantidade).toFixed(2);
+
+      const valorPago = Math.min(valorTotal, parseNum(raw.valorPago || raw.valor_pago || raw.pago || 0));
+      const saldo = +(valorTotal - valorPago).toFixed(2);
+
+      let status = raw.status || (saldo <= 0 && valorTotal > 0 ? 'pago' : valorPago > 0 ? 'parcial' : 'aberto');
+
+      status = ['aberto','parcial','pago'].includes(status) ? status : 'aberto';
+
+      let historicoRecebimentos = [];
+
+      if (Array.isArray(raw.historicoRecebimentos)) {
+        historicoRecebimentos = raw.historicoRecebimentos;
+      } else if (typeof raw.historicoRecebimentos === 'string' && raw.historicoRecebimentos.trim()) {
+        try {
+          const parsed = JSON.parse(raw.historicoRecebimentos);
+          historicoRecebimentos = Array.isArray(parsed) ? parsed : [];
+        } catch (_) {
+          historicoRecebimentos = [];
+        }
+      }
+
+      const baseCliente = {
+        id:idFinal,
+        nome:nomeFinal,
+        telefone:telefoneFinal,
+        clienteKey: raw.clienteKey || raw.cliente_key || ''
+      };
+
+      return {
+        id: idFinal,
+        nome: nomeFinal,
+        telefone: telefoneFinal,
+        clienteKey: raw.clienteKey || raw.cliente_key || clienteKeyDe(baseCliente),
+        produto: String(raw.produto || raw.descricao || raw.item || 'Produto diverso').trim(),
+        quantidade,
+        valorUnitario,
+        valorTotal,
+        valorPago,
+        saldo,
+        status,
+        dataVenda: String(raw.dataVenda || raw.data_venda || raw.data || hojeISO()).slice(0,10),
+        vencimento: raw.vencimento ? String(raw.vencimento).slice(0,10) : '',
+        observacoes: String(raw.observacoes || raw.obs || '').trim(),
+        clienteOrigemId: raw.clienteOrigemId || raw.cliente_origem_id || '',
+        criadoEm: raw.criadoEm || raw.createdAt || agoraISO(),
+        atualizadoEm: raw.atualizadoEm || agoraISO(),
+        quitadoEm: raw.quitadoEm || '',
+        ultimoRecebimentoEm: raw.ultimoRecebimentoEm || '',
+        historicoRecebimentos
+      };
+    }
+
+    function atualizarDbInfo(){
+      const grupos = agruparPorCliente(fiadosCache);
+      const devedores = grupos.filter(g => parseNum(g.saldo) > 0);
+
+      const info = {
+        app: 'Controle de Vendas',
+        banco: DB_NAME,
+        versaoBanco: DB_VERSION,
+        store: STORE,
+        vendas: fiadosCache.length,
+        clientes: grupos.length,
+        devedores: devedores.length,
+        recursos: [
+          'venda rápida',
+          'histórico de recebimentos',
+          'data e hora de quitação',
+          'recebimento parcial',
+          'quitação por venda',
+          'quitação por cliente',
+          'backup JSON',
+          'exportação CSV'
+        ]
+      };
+
+      el('dbInfo').textContent = JSON.stringify(info, null, 2);
+    }
+
+    function registrarEventos(){
+      el('formFiado').addEventListener('submit', onSubmit);
+
+      ['quantidade','valorUnitario','valorPago','status'].forEach(id => {
+        el(id).addEventListener('input', atualizarTotalPreview);
+      });
+
+      ['rapidaQuantidade','rapidaValorUnitario'].forEach(id => {
+        el(id).addEventListener('input', atualizarTotalVendaRapida);
+      });
+
+      el('btnNovo').addEventListener('click', () => {
+        limparFormulario();
+        mostrarCadastro();
+      });
+
+      el('btnNovaCompraForm').addEventListener('click', iniciarNovaCompraManual);
+      el('btnToggleCadastro').addEventListener('click', alternarCadastro);
+      el('btnToggleBackup').addEventListener('click', alternarBackup);
+      el('btnRecarregar').addEventListener('click', recarregar);
+
+      el('btnVoltarTopo').addEventListener('click', voltarTela);
+      el('btnVoltarCadastro').addEventListener('click', voltarTela);
+      el('btnVoltarBackup').addEventListener('click', voltarTela);
+      el('btnVoltarLista').addEventListener('click', voltarTela);
+      el('btnVoltarVendaRapida').addEventListener('click', voltarTela);
+      el('btnVoltarPagamento').addEventListener('click', voltarTela);
+      el('btnVoltarInfo').addEventListener('click', voltarTela);
+
+      el('btnToggleVendaRapida').addEventListener('click', alternarVendaRapida);
+      el('btnSalvarVendaRapida').addEventListener('click', salvarVendaRapida);
+      el('btnAbrirFichaCompletaRapida').addEventListener('click', abrirFichaCompletaDaRapida);
+      el('btnFecharVendaRapida').addEventListener('click', () => el('dialogVendaRapida').close());
+
+      el('busca').addEventListener('input', renderLista);
+      el('filtroStatus').addEventListener('change', renderLista);
+      el('ordenacao').addEventListener('change', renderLista);
+
+      el('btnLimparFiltros').addEventListener('click', () => {
+        el('busca').value='';
+        el('filtroStatus').value='devedores';
+        el('ordenacao').value='recentes';
+        renderLista();
+      });
+
+      el('btnExportJson').addEventListener('click', exportarJson);
+      el('btnExportCsv').addEventListener('click', exportarCsv);
+
+      el('importJson').addEventListener('change', async e => {
+        if(e.target.files[0]) await importarJsonArquivo(e.target.files[0]);
+        e.target.value='';
+      });
+
+      el('importCsv').addEventListener('change', async e => {
+        if(e.target.files[0]) await importarCsvArquivo(e.target.files[0]);
+        e.target.value='';
+      });
+
+      el('closePagamento').addEventListener('click', () => el('dialogPagamento').close());
+
+      el('btnConfirmarPagamento').addEventListener('click', () => confirmarPagamento(false));
+      el('btnQuitarDialog').addEventListener('click', () => confirmarPagamento(true));
+
+      el('closeInfo').addEventListener('click', () => el('dialogInfo').close());
+
+      el('dbStatus').addEventListener('click', () => {
+        atualizarDbInfo();
+        el('dialogInfo').showModal();
+      });
+
+      el('lista').addEventListener('click', async (e) => {
+        const btn = e.target.closest('button[data-act]');
+        if (!btn || btn.disabled) return;
+
+        const id = btn.dataset.id;
+        const act = btn.dataset.act;
+        const key = btn.dataset.key;
+
+        try {
+          if (act === 'voltarCard') {
+            voltarTela();
+            return;
+          }
+
+          if (act === 'toggleCliente') {
+            alternarCliente(key, btn);
+            return;
+          }
+
+          if (act === 'novaCompra') {
+            await novaCompraDoCliente(id);
+            return;
+          }
+
+          if (act === 'editar') {
+            await editar(id);
+            return;
+          }
+
+          if (act === 'receber') {
+            await abrirPagamento(id);
+            return;
+          }
+
+          if (act === 'quitar') {
+            await quitar(id);
+            return;
+          }
+
+          if (act === 'apagar') {
+            await excluir(id);
+            return;
+          }
+
+          if (act === 'receberCliente') {
+            await abrirPagamentoCliente(key);
+            return;
+          }
+
+          if (act === 'quitarCliente') {
+            await quitarCliente(key);
+            return;
+          }
+        } catch (err) {
+          console.error('Erro na ação:', act, err);
+          alert('Erro na ação: ' + (err && err.message ? err.message : err));
+        }
+      });
+    }
+
+    async function iniciar(){
+      try {
+        el('dataVenda').value = hojeISO();
+        el('rapidaDataVenda').value = hojeISO();
+
+        registrarEventos();
+
+        await abrirDB();
+
+        el('dbStatus').textContent = 'Carregando...';
+
+        atualizarTotalPreview();
+        atualizarTotalVendaRapida();
+
+        await recarregar();
+
+        minimizarCadastro();
+        minimizarBackup();
+
+        el('filtroStatus').value = 'devedores';
+        renderLista();
+      } catch (err) {
+        console.error(err);
+        el('dbStatus').textContent = 'Erro';
+        alert('Erro ao iniciar: ' + (err && err.message ? err.message : err));
+      }
+    }
+
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => navigator.serviceWorker.register('./sw.js').catch(()=>{}));
+    }
+
+    iniciar();
+  </script>
+</body>
+</html>
