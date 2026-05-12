@@ -1,85 +1,99 @@
-# Controle de Fiados - Android Offline
+# Controle de Fiados - thIAguinho Soluções
 
-Aplicativo Android offline para controle de dívidas/fiados.
+Este projeto é uma aplicação web estática para controle de fiados, originalmente desenvolvida para ser empacotada como APK Android. Foi adaptado para ser hospedado no GitHub Pages com deploy automático.
 
-## O que faz
+## Estrutura do Projeto
 
-- Cadastro de fiados com nome, telefone, produto, quantidade, valor unitário, valor pago e observações.
-- Cálculo automático de total, pago e saldo.
-- Status automático: em aberto, pago parcial ou pago.
-- Edição de registros.
-- Recebimento parcial.
-- Quitar dívida.
-- Excluir registro.
-- Filtros por cliente/produto/telefone e status.
-- Exportar backup JSON.
-- Importar backup JSON.
-- Exportar planilha CSV.
-- Importar planilha CSV.
-- Funciona offline.
-- Banco local criado automaticamente no celular.
-
-## Banco de dados
-
-O banco principal usa IndexedDB dentro do armazenamento interno do aplicativo Android.
-
-Ele não é memória temporária. Os dados continuam salvos ao fechar e abrir o app.
-
-Atenção: se o app for desinstalado ou o celular for formatado, os dados podem ser perdidos. Use Exportar JSON para guardar backup em WhatsApp, Drive, cartão ou outro local.
-
-## Como subir no GitHub
-
-Suba estes arquivos na raiz do novo repositório:
-
-```text
+```
 .github/
+└── workflows/
+    ├── build-android-apk.yml  # Workflow existente para build Android
+    └── deploy-pages.yml       # NOVO: Workflow para deploy no GitHub Pages
+src/                       # Código fonte da aplicação
+├── index.html
+├── indexreserva.html
+├── manifest.webmanifest
+└── sw.js
+www/                       # Diretório de build para o GitHub Pages (gerado pelo `prepare-www`)
+├── 404.html               # NOVO: Página de fallback para SPAs no GitHub Pages
+├── index.html
+├── indexreserva.html
+├── manifest.webmanifest
+└── sw.js
 scripts/
-src/
-capacitor.config.json
+└── prepare-www.mjs        # Script para copiar arquivos de `src` para `www`
 package.json
 README.md
 ```
 
-A raiz do repositório não pode ficar com uma pasta extra por cima.
+## Como Usar (Desenvolvimento Local)
 
-## Como gerar o APK
+1.  **Clone o repositório:**
+    ```bash
+    git clone https://github.com/SEU_USUARIO/SEU_REPO.git
+    cd SEU_REPO
+    ```
+2.  **Instale as dependências (se houver):**
+    ```bash
+    npm install
+    ```
+3.  **Prepare os arquivos para o `www` (necessário para o Service Worker e PWA):**
+    ```bash
+    npm run prepare-www
+    ```
+4.  **Abra `www/index.html` no seu navegador.**
 
-No GitHub:
+## Deploy no GitHub Pages
 
-1. Abra o repositório.
-2. Vá em Actions.
-3. Selecione: `Gerar APK Android - Controle de Fiados`.
-4. Clique em `Run workflow`.
-5. Aguarde finalizar.
-6. Baixe o artifact: `CONTROLE-FIADOS-ANDROID-APK`.
-7. Instale o arquivo `.apk` no Android.
+Este projeto está configurado para deploy automático no GitHub Pages usando GitHub Actions. 
 
-## Observação
+### Pré-requisitos
 
-O APK gerado pelo workflow é debug. Ele instala normalmente para teste interno, mas não é uma versão assinada para Play Store.
+1.  **Repositório GitHub:** Certifique-se de que seu projeto está em um repositório GitHub.
+2.  **Branch `main`:** O workflow de deploy está configurado para a branch `main`.
 
-Powered by thIAguinho Soluções.
+### Passos para Publicação
 
+1.  **Configure o GitHub Pages no seu repositório:**
+    *   Vá para as **Configurações** do seu repositório no GitHub.
+    *   Clique em **Pages** na barra lateral esquerda.
+    *   Em "Build and deployment", selecione **GitHub Actions** como a fonte.
+    *   Salve as alterações.
 
-## Correção de build no GitHub Actions
+2.  **Faça o commit e push das alterações:**
+    Adicione os novos arquivos (`.github/workflows/deploy-pages.yml`, `www/404.html`) e as modificações nos arquivos existentes (`src/manifest.webmanifest`, `src/sw.js`) ao seu repositório.
+    ```bash
+    git add .
+    git commit -m "feat: Configura deploy automático para GitHub Pages"
+    git push origin main
+    ```
 
-Este pacote usa Capacitor CLI atual, que exige Node.js 22 ou superior.
-O workflow `.github/workflows/build-android-apk.yml` já está configurado com:
+3.  **Verifique o status do deploy:**
+    *   Após o push, o GitHub Actions iniciará automaticamente o workflow `Deploy GitHub Pages`.
+    *   Vá para a aba **Actions** do seu repositório para acompanhar o progresso.
+    *   Uma vez que o workflow `deploy` seja concluído com sucesso, seu site estará disponível no GitHub Pages.
 
-```yaml
-node-version: '22'
-```
+4.  **Acesse seu site:**
+    A URL do seu site será algo como `https://SEU_USUARIO.github.io/SEU_REPO/`.
 
-Se o GitHub Actions mostrar erro `The Capacitor CLI requires NodeJS >=22.0.0`, confirme que o arquivo do workflow enviado ao repositório é esta versão v2.
+## Considerações sobre Caminhos (Paths)
 
+*   Todos os caminhos de assets (CSS, JS, imagens, manifest, service worker) foram ajustados para serem **relativos** (`./`) ou **absolutos em relação à raiz do subdiretório** (ex: `index.html` em vez de `/index.html`). Isso garante que o site funcione corretamente quando hospedado em um subdiretório no GitHub Pages.
+*   O arquivo `www/404.html` foi criado para lidar com o roteamento de SPAs. Ele redireciona todas as requisições de páginas não encontradas para `index.html`, preservando a URL, o que permite que a lógica de roteamento do seu SPA funcione.
 
-## Correção v3 — Java 21
+## Checklist de Validação Final
 
-Se o GitHub Actions mostrar erro `invalid source release: 21`, significa que o build Android está tentando compilar com Java 21, mas o workflow estava usando Java 17.
+Após o deploy, verifique os seguintes itens:
 
-Esta versão já corrige o workflow para:
+-   [ ] O site está acessível na URL do GitHub Pages (`https://SEU_USUARIO.github.io/SEU_REPO/`).
+-   [ ] O layout e o CSS estão intactos e funcionando corretamente.
+-   [ ] O console do navegador não apresenta erros críticos relacionados a caminhos ou carregamento de assets (404 Not Found).
+-   [ ] O `manifest.webmanifest` está sendo carregado e o PWA funciona (se aplicável, verifique no painel "Application" das ferramentas de desenvolvedor do navegador).
+-   [ ] O Service Worker (`sw.js`) está registrado e funcionando (verifique no painel "Application" das ferramentas de desenvolvedor do navegador).
+-   [ ] A navegação entre as rotas da aplicação (se for um SPA) funciona sem problemas, mesmo após um refresh (graças ao `404.html`).
+-   [ ] Todos os ícones e imagens (se existirem) estão sendo carregados corretamente.
+-   [ ] O resultado é reproduzível seguindo este README em um novo ambiente.
 
-```yaml
-node-version: '22'
-java-version: '21'
-```
+---
+
+*Gerado por Manus AI*
